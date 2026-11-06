@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DANEM ENERGY LLC. RAK. - IFC Viewer</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff6d00">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root{--bg1:#fff4e6;--bg2:#ffe0bf;--card:rgba(255,255,255,.74);--bd:rgba(255,255,255,.9);--text:#1d1d1f;--muted:#6e6e73;--field:rgba(255,255,255,.85);--fb:#ead9c6;--accent:#ff6d00;--accent2:#ff9a3c;--sh:0 30px 60px -26px rgba(255,109,0,.4),0 8px 24px rgba(0,0,0,.06)}
+[data-theme=dark]{--bg1:#16120e;--bg2:#2b1d11;--card:rgba(38,32,27,.74);--bd:rgba(255,255,255,.08);--text:#f5f5f7;--muted:#a1a1a6;--field:rgba(255,255,255,.07);--fb:rgba(255,255,255,.12);--sh:0 30px 60px -20px rgba(0,0,0,.7)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden}
+body{font:13px/1.45 'Inter',system-ui,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;
+background:radial-gradient(700px 500px at 8% 0,rgba(255,154,60,.4),transparent 60%),radial-gradient(600px 500px at 100% 100%,rgba(255,109,0,.3),transparent 60%),linear-gradient(160deg,var(--bg1),var(--bg2))}
+#cv{position:absolute;inset:0}#cv canvas{display:block;width:100%;height:100%;outline:none}
+.glass{position:absolute;background:var(--card);border:1px solid var(--bd);box-shadow:var(--sh);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);border-radius:20px}
+header{top:12px;left:12px;right:12px;display:flex;align-items:center;gap:14px;padding:8px 12px}
+.logo{width:46px;height:46px;border-radius:13px;flex:none;background:#fff;display:grid;place-items:center;overflow:hidden;box-shadow:0 8px 20px -8px rgba(255,109,0,.55),0 0 0 1px rgba(0,0,0,.05)}
+.logo img{width:100%;height:100%;object-fit:contain}
+.brand h1{margin:0;font-size:.9rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;line-height:1.15}
+.brand p{margin:1px 0 0;font-size:.72rem;color:var(--muted);font-weight:500}
+.brand p.by{font-style:italic;font-size:.62rem;font-weight:400;opacity:.85;margin-top:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.chip{background:var(--field);border:1px solid var(--fb);border-radius:99px;padding:3px 10px;font-size:11px;color:var(--muted);font-weight:600}
+.chip b{color:var(--text)}
+button,.btn{font:inherit;font-weight:600;color:var(--text);background:var(--field);border:1px solid var(--fb);border-radius:11px;padding:7px 11px;cursor:pointer;transition:.15s}
+button:hover,.btn:hover{border-color:var(--accent);transform:translateY(-1px)}
+button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pri{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:0;box-shadow:0 8px 18px -8px rgba(255,109,0,.8)}
+input[type=file]{display:none}
+#tb{bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:4px;padding:6px;max-width:calc(100% - 24px);overflow-x:auto}
+#tb button{border:0;background:transparent;padding:7px 10px;white-space:nowrap}
+#tb button:hover{background:var(--field);transform:none}#tb button.on{background:var(--accent)}
+#tb i{width:1px;background:var(--fb);margin:4px 3px}
+#panel{top:84px;right:12px;bottom:12px;width:330px;display:flex;flex-direction:column;overflow:hidden}
+.tabs{display:flex;gap:4px;padding:8px;border-bottom:1px solid var(--fb)}
+.tabs button{flex:1;border:0;background:transparent;padding:6px 0;font-size:12px;color:var(--muted)}
+.tabs button.on{background:var(--accent);color:#fff}
+.pane{display:none;padding:12px 14px;overflow:auto;flex:1}.pane.on{display:block}
+.muted{color:var(--muted)}
+.pcard{padding:12px;border-radius:14px;background:linear-gradient(135deg,rgba(255,109,0,.16),rgba(255,154,60,.06));border:1px solid var(--fb);margin-bottom:8px}
+.pcard small{color:var(--accent);font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:10px}.pcard h3{margin:2px 0 0;font-size:15px}
+h4{margin:14px 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+dl{margin:0;display:grid;grid-template-columns:110px 1fr;gap:3px 8px}dt{color:var(--muted)}dd{margin:0;word-break:break-word;font-weight:500}
+input[type=text]{width:100%;padding:8px 11px;border-radius:11px;border:1px solid var(--fb);background:var(--field);color:var(--text);font:inherit;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+details{border-bottom:1px solid var(--fb)}
+summary{display:flex;align-items:center;gap:8px;padding:7px 2px;cursor:pointer;list-style:none}
+summary::before{content:"▸";color:var(--muted);font-size:10px}details[open]>summary::before{content:"▾"}
+summary b{margin-left:auto;color:var(--muted);font-weight:600;font-size:11px}
+input[type=checkbox]{accent-color:var(--accent)}
+.items a{display:block;padding:4px 8px 4px 24px;border-radius:8px;cursor:pointer;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.items a:hover{background:var(--field);color:var(--text)}
+.seg{display:flex;gap:4px;margin:6px 0 12px}.seg button{flex:1}
+.row{display:flex;justify-content:space-between;align-items:center;padding:7px 0}
+.btns{display:flex;gap:6px;margin-top:10px}
+#empty{inset:84px 354px 80px 12px;display:grid;place-items:center;text-align:center;background:none;border:2px dashed var(--fb);box-shadow:none;backdrop-filter:none}
+#empty.over{border-color:var(--accent);background:var(--card)}#empty.hide,#busy.hide{display:none}
+#empty h2{margin:10px 0 4px;font-size:22px;font-weight:800}#empty p{color:var(--muted);margin:0 0 16px}
+#busy{inset:0;border-radius:0;display:grid;place-items:center;z-index:5;background:rgba(0,0,0,.25)}
+#busy div{background:var(--card);padding:22px 30px;border-radius:20px;text-align:center;font-weight:600}
+.spin{width:34px;height:34px;border:4px solid var(--fb);border-top-color:var(--accent);border-radius:50%;margin:0 auto 10px;animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}
+#toast{position:absolute;top:92px;left:50%;transform:translate(-50%,-20px);opacity:0;background:var(--text);color:var(--bg1);padding:7px 14px;border-radius:99px;font-weight:600;transition:.25s;pointer-events:none}#toast.show{opacity:1;transform:translate(-50%,0)}
+#ml{position:absolute;display:none;transform:translate(-50%,-130%);background:var(--accent);color:#fff;font-weight:700;padding:3px 9px;border-radius:99px;pointer-events:none;box-shadow:0 6px 16px -4px rgba(255,109,0,.7)}
+@media(max-width:800px){#panel{top:auto;left:12px;width:auto;height:36%}#empty{inset:84px 12px 38% 12px}.chips{display:none}}
+.tabs{gap:2px;padding:6px}.tabs button{font-size:11px;padding:6px 0}
+.mini{padding:1px 6px;font-size:10px;border-radius:7px;margin-left:4px}
+.items details{margin-left:10px}
+.ml{position:absolute;display:none;transform:translate(-50%,-130%);background:var(--accent);color:#fff;font-weight:700;padding:3px 9px;border-radius:99px;pointer-events:none;box-shadow:0 6px 16px -4px rgba(255,109,0,.7);z-index:2;font-size:12px}
+.pin{position:absolute;width:24px;height:24px;border-radius:50%;background:#e53935;color:#fff;font-weight:800;font-size:12px;display:none;place-items:center;transform:translate(-50%,-50%);cursor:pointer;border:2px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.35);z-index:2}
+#ctx{display:none;z-index:9;min-width:180px;padding:6px;border-radius:14px}
+#ctx button{display:block;width:100%;text-align:left;border:0;background:transparent;padding:6px 10px;border-radius:8px}
+#ctx button:hover{background:var(--field);transform:none}
+#vc{position:absolute;top:84px;left:12px;width:84px;height:84px;perspective:300px;z-index:3;display:none}
+#cube{position:relative;width:46px;height:46px;margin:19px;transform-style:preserve-3d}
+#cube div{position:absolute;inset:0;display:grid;place-items:center;font:700 8px/1 'Inter',sans-serif;letter-spacing:.04em;background:var(--card);border:1px solid var(--accent);color:var(--text);cursor:pointer;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#cube div:hover{background:var(--accent);color:#fff}
+.lg{display:flex;align-items:center;gap:6px;padding:2px 0;font-size:12px}.lg i{width:12px;height:12px;border-radius:3px;flex:none}
+.lst a{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:8px;cursor:pointer;color:var(--text)}
+.lst a:hover{background:var(--field)}.lst a img{width:48px;height:30px;border-radius:5px;object-fit:cover;flex:none}
+.lst a span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lst a u{text-decoration:none;color:var(--muted);padding:0 4px}
+select{width:100%;padding:7px 9px;border-radius:11px;border:1px solid var(--fb);background:var(--field);color:var(--text);font:inherit;margin-bottom:8px}
+.sec3{display:grid;grid-template-columns:18px 1fr auto;gap:6px;align-items:center;margin:8px 0}
+.note{padding:6px 10px;border-radius:10px;background:rgba(255,109,0,.12);margin-bottom:8px;font-weight:600}
+input[type=color]{width:100%;height:30px;border:1px solid var(--fb);border-radius:9px;padding:0;background:var(--field)}
+.tabs{overflow-x:auto}.tabs button{flex:1 0 auto;padding:6px 9px}
+.tip{position:absolute;display:none;pointer-events:none;z-index:4;background:var(--text);color:var(--bg1);padding:3px 10px;border-radius:99px;font-weight:600;font-size:11px;transform:translate(14px,14px);white-space:nowrap}
+.pin.iss{background:var(--accent)}
+input[type=date]{width:100%;padding:8px 11px;border-radius:11px;border:1px solid var(--fb);background:var(--field);color:var(--text);font:inherit;margin-bottom:8px}
+#mk{position:absolute;inset:0;z-index:6;display:none}#mkc{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none}
+#mkbar{top:84px;left:50%;transform:translateX(-50%);display:none;gap:4px;padding:6px;z-index:7;align-items:center}
+#mkbar button{border:0;background:transparent;padding:6px 9px}#mkbar button.on{background:var(--accent);color:#fff}
+#mkbar input[type=color]{width:34px;height:28px}
+select option,select optgroup{background:#fff;color:#1d1d1f}
+[data-theme=dark] select option,[data-theme=dark] select optgroup{background:#2b1d11;color:#f5f5f7}
+[data-theme=dark]{color-scheme:dark}[data-theme=light]{color-scheme:light}
+[data-theme=dark] select{background-color:#3a2d21;color:#f5f5f7;color-scheme:dark}
+[data-theme=light] select{color-scheme:light}
+select option,select optgroup{background-color:#fff!important;color:#1d1d1f!important}
+[data-theme=dark] select option,[data-theme=dark] select optgroup{background-color:#2b1d11!important;color:#f5f5f7!important}
+[data-theme=dark] select option:checked,[data-theme=dark] select option:hover{background-color:var(--accent)!important;color:#fff!important}
+
+.tabs{overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs button{flex:none;padding:6px 11px}
+#hud{position:absolute;right:354px;bottom:74px;padding:5px 12px;border-radius:12px;font:600 11px 'Inter',sans-serif;color:var(--muted);background:var(--card);border:1px solid var(--bd);backdrop-filter:blur(14px);pointer-events:none}#hud b{color:var(--accent)}
+#cp{position:fixed;inset:0;z-index:20;display:none;place-items:start center;padding-top:14vh;background:rgba(0,0,0,.35);backdrop-filter:blur(4px)}#cp.on{display:grid}
+#cp>div{width:min(560px,92vw);background:var(--card);border:1px solid var(--bd);border-radius:18px;box-shadow:var(--sh);padding:10px;backdrop-filter:blur(24px)}
+#cp input{margin:0 0 6px;font-size:15px;padding:11px 14px}#cpl{max-height:46vh;overflow:auto}
+#cpl a{display:flex;justify-content:space-between;padding:8px 12px;border-radius:10px;cursor:pointer}#cpl a.on,#cpl a:hover{background:var(--accent);color:#fff}#cpl small{opacity:.65}
+.bar{position:relative;display:flex;align-items:center;gap:6px;padding:3px 0;cursor:pointer}.bar span{width:96px;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar i{height:9px;border-radius:5px;min-width:3px}.bar b{margin-left:auto;color:var(--muted)}.bar:hover span{color:var(--accent)}
+.gr{display:grid;grid-template-columns:78px 1fr;gap:4px 8px;align-items:center}
+
+#tb{top:84px;bottom:12px;left:12px;right:auto;transform:none;flex-direction:column;align-items:center;gap:3px;padding:6px;width:52px;max-width:none;overflow:visible;overflow-y:auto;scrollbar-width:none;border-radius:16px}
+#tb::-webkit-scrollbar{display:none}
+#tb button{position:relative;width:38px;height:38px;flex:none;padding:0;display:grid;place-items:center;border-radius:10px;font-size:17px;line-height:1}
+#tb button span{filter:grayscale(.15)}
+#tb button.on{background:var(--accent);box-shadow:0 6px 14px -6px rgba(255,109,0,.9)}#tb button.on::before{content:"";position:absolute;left:-6px;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--accent)}
+#tb i{width:26px;height:1px;margin:4px 0;flex:none}
+#tb button::after{content:attr(data-tip);position:fixed;left:72px;margin-top:0;padding:4px 10px;border-radius:8px;background:var(--text);color:var(--bg1);font-size:11px;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .12s;z-index:30;transform:translateY(0)}
+#tb button:hover::after{opacity:1}
+#vc{left:72px}
+#empty{inset:84px 354px 80px 72px}
+#optbar{top:84px;left:72px;right:auto;display:flex;gap:10px;align-items:center;padding:6px 14px;border-radius:12px;font-size:12px;z-index:3}
+#optbar b{color:var(--accent);text-transform:uppercase;letter-spacing:.06em;font-size:11px}#optbar span{color:var(--muted)}
+#vc{top:128px}
+@media(max-width:760px){#optbar span{display:none}}
+#tb button::after,#tb button:hover::after{content:none!important;display:none!important}
+#ttip{position:fixed;z-index:99;display:none;pointer-events:none;padding:5px 11px;border-radius:9px;background:#1d1d1f;color:#fff;font:600 12px 'Inter',sans-serif;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+#ttip::before{content:"";position:absolute;left:-5px;top:50%;margin-top:-5px;border:5px solid transparent;border-left:0;border-right-color:#1d1d1f}
+.tabs{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:var(--accent) transparent;padding-bottom:10px}
+.tabs::-webkit-scrollbar{display:block;height:6px}.tabs::-webkit-scrollbar-track{background:rgba(128,128,128,.15);border-radius:6px}
+.tabs::-webkit-scrollbar-thumb{background:var(--accent);border-radius:6px}.tabs::-webkit-scrollbar-thumb:hover{background:var(--accent2)}
+#tb button.dis{opacity:.35;pointer-events:auto}#tb button.dis:hover{transform:none;border-color:var(--fb)}
+</style>
+</head>
+<body>
+<div id="cv"></div>
+<div id="vc"><div id="cube">
+  <div data-v="front" style="transform:translateZ(23px)">FRONT</div><div data-v="back" style="transform:rotateY(180deg) translateZ(23px)">BACK</div>
+  <div data-v="right" style="transform:rotateY(90deg) translateZ(23px)">RIGHT</div><div data-v="left" style="transform:rotateY(-90deg) translateZ(23px)">LEFT</div>
+  <div data-v="top" style="transform:rotateX(90deg) translateZ(23px)">TOP</div><div data-v="bottom" style="transform:rotateX(-90deg) translateZ(23px)">BOTTOM</div>
+</div></div>
+<header class="glass">
+  <div class="logo"><img alt="Danem logo" src="data:image/jpeg;base64,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"></div>
+  <div class="brand"><h1>Danem Energy LLC. RAK.</h1><p>IFC Viewer · BIM model inspector</p><p class="by">Created by Kannan</p></div>
+  <div class="chips" id="chips"></div>
+  <button id="fs" title="Fullscreen">⛶</button>
+  <button id="theme" title="Toggle theme">◐</button>
+  <label class="btn pri">Open .ifc<input id="file" type="file" accept=".ifc"></label>
+</header>
+
+<div id="empty" class="glass"><div>
+  <div style="font-size:46px">🏗️</div><h2>Drop an .ifc model here</h2><p>Parsed locally in your browser — nothing is uploaded.</p>
+  <label class="btn pri">Choose file<input id="file2" type="file" accept=".ifc"></label>
+</div></div>
+
+<aside id="panel" class="glass">
+  <div class="tabs"><button data-t="p" class="on">Props</button><button data-t="t">Tree</button><button data-t="qs">Search</button><button data-t="s">Section</button><button data-t="is">Issues</button><button data-t="v">View</button><button data-t="o">Tools</button><button data-t="pro">Pro</button><button data-t="plus">Studio</button></div>
+  <div class="pane on" id="p"><div class="muted" id="info">Click an element to inspect it. Shift+click multi-selects, double-click zooms, right-click opens a menu.</div></div>
+  <div class="pane" id="t">
+    <div class="seg" id="tmode"><button data-m="sp" class="on">Spatial</button><button data-m="cl">Classes</button></div>
+    <div id="tsp"><div class="muted">Load a model to see its structure.</div></div>
+    <div id="tcl" style="display:none"><input type="text" id="q" placeholder="Filter classes…"><div id="tree" class="muted">Load a model to see its classes.</div></div>
+  </div>
+  <div class="pane" id="q-pane" style="display:none"></div>
+  <div class="pane" id="qs">
+    <input type="text" id="sq" placeholder="Search name, GlobalId, tag, type…">
+    <select id="sc"><option value="">All classes</option></select>
+    <label class="row">Deep search (property values, slower)<input type="checkbox" id="sdeep"></label>
+    <div id="sres" class="lst muted">Type to search elements.</div>
+    <div class="btns"><button id="s-sel">Select</button><button id="s-iso">Isolate</button><button id="s-hide">Hide</button></div>
+  </div>
+  <div class="pane" id="is">
+    <div class="btns" style="margin-top:0"><button id="is-new" class="pri">＋ New issue</button><button id="is-json">JSON</button><button id="is-csv">CSV</button><label class="btn">Import<input id="is-imp" type="file" accept=".json"></label></div>
+    <div id="isf" style="margin-top:10px"></div><h4>Issues</h4>
+    <select id="isfl"><option value="">All statuses</option><option>Open</option><option>In progress</option><option>Resolved</option><option>Closed</option></select>
+    <div id="isl" class="lst muted">No issues. Use ＋ New issue or right-click an element.</div>
+  </div>
+  <div class="pane" id="s">
+    <div class="muted">Combine up to three section planes (X, Y, Z).</div>
+    <div id="sec">
+      <div class="sec3"><b>X</b><input type="range" id="cl-x" data-a="x" min="0" max="100" value="100"><button data-flip="x" class="mini">Flip</button></div>
+      <div class="sec3"><b>Y</b><input type="range" id="cl-y" data-a="y" min="0" max="100" value="100"><button data-flip="y" class="mini">Flip</button></div>
+      <div class="sec3"><b>Z</b><input type="range" id="cl-z" data-a="z" min="0" max="100" value="100"><button data-flip="z" class="mini">Flip</button></div>
+    </div>
+    <div class="btns"><button id="clipreset">Reset sections</button></div>
+    <div class="btns"><button id="sb-sel">Box from selection</button><button id="sb-clr">Clear box / face plane</button></div>
+    <p class="muted">Right-click a face → “Section from face” cuts along that surface.</p>
+    <p class="muted">Tip: in the Tree tab, “Plan” on a storey makes a floor-plan cut.</p>
+  </div>
+  <div class="pane" id="v">
+    <label class="row">Ground grid<input type="checkbox" id="o-grid" checked></label>
+    <label class="row">Edges<input type="checkbox" id="o-edge"></label>
+    <label class="row">Wireframe<input type="checkbox" id="o-wire"></label>
+    <label class="row">X-ray<input type="checkbox" id="o-xray"></label>
+    <label class="row">Colour by class<input type="checkbox" id="o-color"></label>
+    <div id="legend"></div>
+    <label class="row">Hover highlight<input type="checkbox" id="o-hov" checked></label>
+    <h4>Opacity</h4><input type="range" id="o-op" min="5" max="100" value="100">
+    <h4>Explode</h4><input type="range" id="o-ex" min="0" max="100" value="0">
+    <h4>Field of view</h4><input type="range" id="fov" min="20" max="90" value="50">
+    <h4>Background</h4>
+    <select id="bg"><option value="">Warm gradient</option><option value="#ffffff">White</option><option value="#e6e8eb">Light grey</option><option value="#1b1d21">Dark</option><option value="custom">Custom…</option></select>
+    <input type="color" id="bgc" value="#cfe3f5" style="display:none">
+    <div class="btns"><button id="resetall">Reset everything</button></div>
+    <h4>Shortcuts</h4><p class="muted">F fit · H hide · I isolate · M measure · N note · Z zoom selection · Enter finish area · O ortho/persp · Esc clear<br>Shift/Ctrl+click multi-select · Walk mode: W A S D, Q/E down/up, Shift = fast</p>
+  </div>
+  <div class="pane" id="o">
+    <h4 style="margin-top:0">Model info</h4><div id="minfo" class="muted">No model loaded.</div>
+    <h4>Saved views</h4>
+    <div class="btns" style="margin-top:0"><button id="sv-add">＋ Save view</button><button id="sv-exp">Export</button><label class="btn">Import<input id="sv-imp" type="file" accept=".json"></label></div>
+    <div id="svl" class="lst muted">No saved views.</div>
+    <h4>Measurements</h4>
+    <select id="mmode"><option value="dist">Distance (2 points)</option><option value="angle">Angle (3 points)</option><option value="area">Area / perimeter (Enter to finish)</option><option value="coord">Coordinates</option><option value="obj">Min. distance between two objects</option></select>
+    <div class="btns" style="margin:0 0 8px"><button id="m-fin">Finish area</button></div>
+    <label class="row">Snap to vertices<input type="checkbox" id="o-snap" checked></label>
+    <div id="msl" class="lst muted">None. Use 📏 and click two points.</div>
+    <div class="btns"><button id="ms-clr">Clear measurements</button></div>
+    <h4>Notes</h4><div id="ntl" class="lst muted">None. Use 📝 and click the model.</div>
+    <h4>Selection</h4>
+    <div class="btns" style="margin-top:0"><button id="sl-cls">Same class</button><button id="sl-nm">Same name</button><button id="sl-inv">Invert</button></div>
+    <div class="sec3" style="grid-template-columns:1fr auto auto"><input type="color" id="ap-c" value="#2e7d32"><button id="ap-cb">Colour</button><button id="ap-rs" class="mini">Reset</button></div>
+    <div class="sec3" style="grid-template-columns:1fr auto"><input type="range" id="ap-o" min="5" max="95" value="40"><button id="ap-ob">Transparent</button></div>
+    <h4>Selection sets</h4><div class="btns" style="margin-top:0"><button id="ss-add">＋ Save selection</button></div><div id="ssl" class="lst muted">None.</div>
+    <h4>Clash check (bounding boxes)</h4><select id="cl-a"></select><select id="cl-b"></select><input type="text" id="cl-t" value="0.01" placeholder="Tolerance (m)">
+    <div class="btns" style="margin-top:0"><button id="cl-run">Run check</button></div><div id="cl-l" class="lst muted">None.</div>
+    <h4>Export</h4><div class="btns"><button id="ex-csv">Elements CSV</button></div>
+  </div>
+  <div class="pane" id="pro">
+    <h4 style="margin-top:0">IDS validation</h4>
+    <div class="btns" style="margin-top:0"><label class="btn">Load .ids<input id="ids-f" type="file" accept=".ids,.xml"></label><button id="ids-csv">Report CSV</button></div>
+    <div id="ids-r" class="lst muted">Load an IDS file to check the model.</div>
+    <h4>Rule-based selection</h4>
+    <select id="rb-c" multiple size="4"></select>
+    <div class="sec3" style="grid-template-columns:1fr 1fr"><select id="rb-f"><option>Name</option><option>ObjectType</option><option>Tag</option><option>Storey</option><option>Material</option></select><select id="rb-o"><option value="c">contains</option><option value="e">equals</option><option value="s">starts with</option><option value="n">not contains</option></select></div>
+    <input type="text" id="rb-v" placeholder="Value (blank = classes only)">
+    <div class="btns" style="margin-top:0"><button id="rb-sel">Select</button><button id="rb-iso">Isolate</button><button id="rb-hide">Hide</button></div>
+    <div id="rb-n" class="muted"></div>
+    <h4>Storey slide</h4>
+    <input type="range" id="ss-r" min="0" max="0" value="0"><div id="ss-l" class="muted">Load a model.</div>
+    <h4>BCF browser</h4>
+    <div class="btns" style="margin-top:0"><label class="btn">Open .bcf / .bcfzip<input id="bcf-f" type="file" accept=".bcf,.bcfzip,.zip"></label></div>
+    <div id="bcf-l" class="lst muted">None.</div>
+    <h4>IFC reference</h4>
+    <input type="text" id="ref-q" placeholder="Class, e.g. IfcWall"><div id="ref-r" class="muted"></div>
+    <h4>Export</h4>
+    <div class="btns" style="margin-top:0"><button id="ex-cobie">COBie CSV</button><button id="ex-obj">OBJ</button><button id="ex-qty">Quantities CSV</button></div>
+  </div>
+  <div class="pane" id="plus">
+    <h4 style="margin-top:0">Dashboard <small class="muted">(click a bar to isolate)</small></h4><div id="dash" class="muted">Load a model.</div>
+    <div class="btns"><button id="hc">Health check</button><button id="rep">Report (HTML)</button></div><div id="hcr" class="muted"></div>
+    <h4>Colour by</h4>
+    <select id="cby"><option value="">Original colours</option><option value="st">Storey</option><option value="el">Elevation heat-map</option><option value="sz">Element size</option></select>
+    <h4>Lighting</h4>
+    <div class="gr"><span>Sun angle</span><input type="range" id="l-az" min="0" max="360" value="45"><span>Sun height</span><input type="range" id="l-el" min="5" max="90" value="55"><span>Brightness</span><input type="range" id="l-b" min="30" max="200" value="100"></div>
+    <h4>Camera</h4>
+    <label class="row">Turntable (L)<input type="checkbox" id="c-rot"></label>
+    <label class="row">Zoom to cursor<input type="checkbox" id="c-zc" checked></label>
+    <label class="row">Performance HUD<input type="checkbox" id="c-hud" checked></label>
+    <div class="btns"><button id="c-sel">Orbit selection</button><button id="c-hr">Snapshot 3×</button><button id="c-4d">▶ 4D storeys</button></div>
+    <h4>Site location</h4><div id="site" class="muted">—</div>
+    <h4>Export</h4>
+    <div class="btns" style="margin-top:0"><button id="ex-glb">GLB (visible)</button><button id="ex-gid">Copy GlobalIds</button></div>
+    <p class="muted">Ctrl/⌘+K opens the command palette · X x-ray · G grid · L turntable</p>
+  </div>
+</aside>
+
+<nav id="tb" class="glass">
+  <button data-act="undo" data-tip="Undo (Ctrl+Z)" aria-label="Undo"><span>↶</span></button>
+  <button data-act="redo" data-tip="Redo (Ctrl+Shift+Z)" aria-label="Redo"><span>↷</span></button>
+  <i></i>
+  <button data-act="fit" data-tip="Fit to view (F)" aria-label="Fit to view"><span>⤢</span></button>
+  <button data-act="iso" data-tip="Isometric" aria-label="Isometric"><span>⬡</span></button>
+  <button data-act="top" data-tip="Top" aria-label="Top"><span>⬒</span></button>
+  <button data-act="front" data-tip="Front" aria-label="Front"><span>◧</span></button>
+  <button data-act="side" data-tip="Side" aria-label="Side"><span>◨</span></button>
+  <i></i>
+  <button data-act="ortho" id="b-ortho" data-tip="Orthographic / Perspective (O)" aria-label="Orthographic / Perspective"><span>⬚</span></button>
+  <button data-act="walk" id="b-walk" data-tip="Walk mode" aria-label="Walk mode"><span>🚶</span></button>
+  <i></i>
+  <button data-act="measure" id="b-measure" data-tip="Measure (M)" aria-label="Measure"><span>📏</span></button>
+  <button data-act="note" id="b-note" data-tip="Note (N)" aria-label="Note"><span>📝</span></button>
+  <i></i>
+  <button data-act="isolate" data-tip="Isolate (I)" aria-label="Isolate"><span>◉</span></button>
+  <button data-act="hide" data-tip="Hide (H)" aria-label="Hide"><span>⊘</span></button>
+  <button data-act="showall" data-tip="Show all" aria-label="Show all"><span>◌</span></button>
+  <button data-act="zoomsel" data-tip="Zoom to selection (Z)" aria-label="Zoom to selection"><span>⌖</span></button>
+  <button data-act="ghost" data-tip="Ghost others" aria-label="Ghost others"><span>👻</span></button>
+  <i></i>
+  <button data-act="shot" data-tip="Snapshot" aria-label="Snapshot"><span>📷</span></button>
+  <button data-act="markup" data-tip="Markup" aria-label="Markup"><span>✏️</span></button>
+</nav>
+<div id="optbar" class="glass"><b id="ot">Select</b><span id="oh">Click an element to inspect it</span></div>
+<div id="ctx" class="glass"></div>
+<div id="tip" class="tip"></div>
+<div id="mk"><canvas id="mkc"></canvas></div>
+<div id="mkbar" class="glass"><button data-k="pen" class="on">Pen</button><button data-k="arrow">Arrow</button><button data-k="rect">Box</button><button data-k="text">Text</button><input type="color" id="mkcol" value="#e53935"><button data-k="undo">Undo</button><button data-k="clear">Clear</button><button data-k="png">Save PNG</button><button data-k="issue" class="on">To issue</button><button data-k="close">✕</button></div>
+<div id="busy" class="glass hide"><div><div class="spin"></div><span id="busytxt">Loading…</span></div></div>
+<div id="hud" class="glass-lite"></div>
+<div id="cp"><div><input type="text" id="cpi" placeholder="Type a command, class or tab…"><div id="cpl"></div></div></div>
+<div id="ttip"></div>
+<div id="toast"></div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import * as WebIFC from "https://cdn.jsdelivr.net/npm/web-ifc@0.0.57/web-ifc-api.js";
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pretty=t=>t.replace(/^IFC/i,"").toLowerCase().replace(/(^|\s)\w/g,c=>c.toUpperCase())||t;
+const toast=t=>{const e=$("#toast");e.textContent=t;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),2400)};
+const csvq=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
+const download=(name,text,mime="text/plain")=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:mime}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)};
+const tick=()=>new Promise(r=>setTimeout(r));
+
+// ---------- scene
+const cv=$("#cv"), renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.localClippingEnabled=true; cv.appendChild(renderer.domElement);
+const scene=new THREE.Scene();
+const persp=new THREE.PerspectiveCamera(50,1,.1,5000), ortho=new THREE.OrthographicCamera(-10,10,10,-10,.01,5000);
+let cam=persp, orthoH=10; persp.position.set(20,15,20);
+const controls=new OrbitControls(persp,renderer.domElement); controls.enableDamping=true;
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a7a6a,1.1));
+const sun=new THREE.DirectionalLight(0xffffff,1.3); sun.position.set(30,60,20); scene.add(sun);
+const grid=new THREE.GridHelper(200,200,0x999999,0xbbbbbb); grid.material.transparent=true; grid.material.opacity=.4; scene.add(grid);
+const AX=["x","y","z"], S={x:{v:100,s:-1},y:{v:100,s:-1},z:{v:100,s:-1}};
+const clips=Array.from({length:10},()=>new THREE.Plane(new THREE.Vector3(0,-1,0),1e6));
+const selMat=new THREE.MeshLambertMaterial({color:0xff6d00,side:THREE.DoubleSide,clippingPlanes:clips});
+const hovMat=new THREE.MeshLambertMaterial({color:0xffb066,side:THREE.DoubleSide,clippingPlanes:clips});
+const edgeMat=new THREE.LineBasicMaterial({color:0x222222,transparent:true,opacity:.45,clippingPlanes:clips});
+const updateOrtho=()=>{const a=cv.clientWidth/cv.clientHeight||1;ortho.left=-orthoH*a;ortho.right=orthoH*a;ortho.top=orthoH;ortho.bottom=-orthoH;ortho.updateProjectionMatrix()};
+const resize=()=>{const w=cv.clientWidth,h=cv.clientHeight;renderer.setSize(w,h);persp.aspect=w/h;persp.updateProjectionMatrix();updateOrtho()};
+addEventListener("resize",resize); resize();
+function setOrtho(on){
+  if(on===(cam===ortho))return; const tgt=controls.target;
+  if(on){const d=persp.position.distanceTo(tgt);orthoH=Math.max(d*Math.tan(persp.fov*Math.PI/360),.01);ortho.position.copy(persp.position);ortho.quaternion.copy(persp.quaternion);ortho.zoom=1;ortho.near=persp.near;ortho.far=persp.far;cam=ortho;updateOrtho()}
+  else{const d=orthoH/ortho.zoom/Math.tan(persp.fov*Math.PI/360),dir=ortho.position.clone().sub(tgt).normalize();persp.position.copy(tgt).addScaledVector(dir,d);persp.quaternion.copy(ortho.quaternion);cam=persp}
+  controls.object=cam;controls.update();$("#b-ortho").classList.toggle("on",on);
+}
+const setTheme=t=>{document.documentElement.dataset.theme=t;grid.material.color.set(t=="dark"?0x6b5a48:0x999999);edgeMat.color.set(t=="dark"?0xddd5cc:0x222222)};
+setTheme(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+$("#theme").onclick=()=>setTheme(document.documentElement.dataset.theme=="dark"?"light":"dark");
+$("#fs").onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();
+
+// ---------- state
+let modelID=null,group=null,box=new THREE.Box3(),mc=new THREE.Vector3(),meshes=[],mats=[],byId=new Map(),typeOf=new Map(),classes=new Map(),elStorey=new Map(),nameC=new Map();
+let hiddenT=new Set(),hiddenI=new Set(),hiddenS=new Set(),iso=null,sel=new Set(),primary=null,hov=null,anim=null,edgesBuilt=false;
+let colorType=false,tmats=new Map(),explode=0,spatial=null,index=null,results=[],lastInfo=null,fileName="";
+let measure=false,noteMode=false,walk=false,pend=null,pendMark=null,ms=[],notes=[],views=[];
+const keys=new Set(), tmpV=new THREE.Vector3();
+
+const label=(cls)=>{const d=document.createElement("div");d.className=cls;document.body.appendChild(d);return d};
+const place=(el,p)=>{const v=p.clone().project(cam);el.style.display=(v.z<1&&v.z>-1)?(el.classList.contains("pin")?"grid":"block"):"none";el.style.left=(v.x*.5+.5)*cv.clientWidth+"px";el.style.top=(-v.y*.5+.5)*cv.clientHeight+"px"};
+let last=performance.now();
+(function loop(now){requestAnimationFrame(loop);const dt=Math.min(.1,(now-last)/1000);last=now;
+  if(anim){const k=Math.min(1,(now-anim.s)/450),e=1-Math.pow(1-k,3);cam.position.lerpVectors(anim.p0,anim.p1,e);controls.target.lerpVectors(anim.t0,anim.t1,e);if(k>=1)anim=null}
+  if(walk&&keys.size&&!box.isEmpty()){const sp=box.getSize(tmpV).length()*.12*dt*(keys.has("shift")?3:1),d=cam.getWorldDirection(new THREE.Vector3()),r=new THREE.Vector3().crossVectors(d,cam.up).normalize(),mv=new THREE.Vector3();
+    if(keys.has("w"))mv.add(d);if(keys.has("s"))mv.sub(d);if(keys.has("d"))mv.add(r);if(keys.has("a"))mv.sub(r);if(keys.has("e"))mv.y-=1;if(keys.has("q"))mv.y+=1;
+    mv.multiplyScalar(sp);cam.position.add(mv);controls.target.add(mv)}
+  controls.update(); renderer.render(scene,cam);
+  const e=cam.matrixWorldInverse.elements;$("#cube").style.transform=`matrix3d(${e[0]},${-e[1]},${e[2]},0,${-e[4]},${e[5]},${-e[6]},0,${e[8]},${-e[9]},${e[10]},0,0,0,0,1)`;
+  ms.forEach(m=>place(m.el,m.a.clone().add(m.b).multiplyScalar(.5)));notes.forEach(n=>place(n.el,n.pos));(window.ISS||[]).forEach(n=>place(n.el,n.pos));
+})();
+const flyTo=(p,t)=>anim={s:performance.now(),p0:cam.position.clone(),t0:controls.target.clone(),p1:p,t1:t};
+const frame=(b,dir)=>{if(b.isEmpty())return;const c=b.getCenter(new THREE.Vector3()),r=b.getSize(new THREE.Vector3()).length()||10;
+  dir=dir||cam.position.clone().sub(controls.target);persp.near=ortho.near=r/1000;persp.far=ortho.far=r*100;persp.updateProjectionMatrix();
+  if(cam===ortho){orthoH=r*.5;ortho.zoom=1;updateOrtho()}else ortho.updateProjectionMatrix();
+  flyTo(c.clone().add(dir.clone().normalize().multiplyScalar(r*.95)),c);if(!box.isEmpty())grid.position.y=box.min.y};
+const VIEWS={top:[0,1,.001],bottom:[0,-1,.001],front:[0,.12,1],back:[0,.12,-1],right:[1,.12,0],left:[-1,.12,0]};
+$("#cube").onclick=e=>{const v=e.target.dataset.v;if(v&&!box.isEmpty())frame(box,new THREE.Vector3(...VIEWS[v]))};
+
+// ---------- loading
+const ifc=new WebIFC.IfcAPI(); ifc.SetWasmPath("https://cdn.jsdelivr.net/npm/web-ifc@0.0.57/",true);
+const ready=ifc.Init().catch(e=>toast("web-ifc failed: "+e.message));
+const busy=(on,t)=>{$("#busy").classList.toggle("hide",!on);if(t)$("#busytxt").textContent=t};
+const frames=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+const nameOf=id=>{if(nameC.has(id))return nameC.get(id);let n;try{n=ifc.GetLine(modelID,id,false).Name?.value||"Unnamed"}catch{n="Element "+id}nameC.set(id,n);return n};
+const typeColor=t=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return new THREE.Color().setHSL((h%360)/360,.6,.55)};
+const typeMat=t=>{let m=tmats.get(t);if(!m){m=new THREE.MeshLambertMaterial({color:typeColor(t),side:THREE.DoubleSide,clippingPlanes:clips});m.userData.o=1;tmats.set(t,m)}return m};
+
+async function load(file){
+  await ready; busy(true,"Reading "+file.name+"…"); await frames(); fileName=file.name;
+  const data=new Uint8Array(await file.arrayBuffer());
+  if(modelID!==null){try{ifc.CloseModel(modelID)}catch{}}
+  if(group){scene.remove(group);group.traverse(o=>o.geometry?.dispose())}
+  meshes=[];mats=[];byId.clear();typeOf.clear();classes.clear();elStorey.clear();nameC.clear();tmats.clear();
+  hiddenT.clear();hiddenI.clear();hiddenS.clear();iso=null;sel=new Set();primary=null;hov=null;edgesBuilt=false;index=null;spatial=null;custom.clear();ghostOn=false;
+  clearMeasure();notes.forEach(n=>n.el.remove());notes=[];views=[];renderViews();renderNotes();resetExtras();
+  AX.forEach(a=>S[a]={v:100,s:-1});$("#o-ex").value=0;explode=0;
+  group=new THREE.Group();scene.add(group);
+  busy(true,"Building geometry…"); await frames();
+  try{
+    modelID=ifc.OpenModel(data,{COORDINATE_TO_ORIGIN:true});
+    const cache=new Map(); let tris=0;
+    ifc.StreamAllMeshes(modelID,mesh=>{
+      const id=mesh.expressID;
+      if(!typeOf.has(id)){let t="IFCPRODUCT";try{t=ifc.GetNameFromTypeCode(ifc.GetLineType(modelID,id))}catch{}typeOf.set(id,t);
+        if(!classes.has(t))classes.set(t,new Set());classes.get(t).add(id)}
+      for(let i=0;i<mesh.geometries.size();i++){
+        const pg=mesh.geometries.get(i),g=ifc.GetGeometry(modelID,pg.geometryExpressID);
+        const v=ifc.GetVertexArray(g.GetVertexData(),g.GetVertexDataSize()),ix=ifc.GetIndexArray(g.GetIndexData(),g.GetIndexDataSize());
+        const bg=new THREE.BufferGeometry(),buf=new THREE.InterleavedBuffer(new Float32Array(v),6);
+        bg.setAttribute("position",new THREE.InterleavedBufferAttribute(buf,3,0));
+        bg.setAttribute("normal",new THREE.InterleavedBufferAttribute(buf,3,3));
+        bg.setIndex(new THREE.BufferAttribute(new Uint32Array(ix),1)); tris+=ix.length/3;
+        const c=pg.color,key=[c.x,c.y,c.z,c.w].map(n=>n.toFixed(3)).join();
+        let mat=cache.get(key);
+        if(!mat){mat=new THREE.MeshLambertMaterial({color:new THREE.Color(c.x,c.y,c.z),opacity:c.w,transparent:c.w<1,side:THREE.DoubleSide,clippingPlanes:clips});mat.userData.o=c.w;cache.set(key,mat);mats.push(mat)}
+        const m=new THREE.Mesh(bg,mat);m.matrixAutoUpdate=false;m.matrix.fromArray(pg.flatTransformation);m.userData={id,base:mat,m0:m.matrix.clone()};
+        group.add(m);meshes.push(m);if(!byId.has(id))byId.set(id,[]);byId.get(id).push(m);g.delete();
+      }});
+    group.updateMatrixWorld(true);box.setFromObject(group);box.getCenter(mc);
+    byId.forEach(ms_=>{const b=new THREE.Box3();ms_.forEach(m=>b.expandByObject(m));const c=b.getCenter(new THREE.Vector3());ms_.forEach(m=>m.userData.c=c)});
+    applyExplode();setClips();
+    const dir=new THREE.Vector3(1,.8,1);frame(box,dir);camera_snap(dir);
+    const s=box.getSize(new THREE.Vector3());
+    $("#chips").innerHTML=[["File",file.name],["Elements",byId.size],["Classes",classes.size],["Triangles",tris.toLocaleString()],["Size",`${s.x.toFixed(1)}×${s.z.toFixed(1)}×${s.y.toFixed(1)} m`]].map(([k,v])=>`<span class="chip">${k} <b>${esc(v)}</b></span>`).join("");
+    $("#empty").classList.add("hide");$("#vc").style.display="block";
+    busy(true,"Reading spatial structure…");await frames();await buildSpatial();
+    rebuildTrees();applyOpts();modelInfo(file,tris);fillClassSelect();fillClash();renderLegend();toast("Model loaded");
+  }catch(e){console.error(e);toast("Could not open file: "+e.message)}
+  busy(false);
+}
+function camera_snap(dir){cam.position.copy(controls.target).add(dir.clone().normalize().multiplyScalar(box.getSize(new THREE.Vector3()).length()));anim=null}
+for(const id of ["#file","#file2"])$(id).onchange=e=>e.target.files[0]&&load(e.target.files[0]);
+addEventListener("dragover",e=>{e.preventDefault();$("#empty").classList.add("over")});
+addEventListener("dragleave",()=>$("#empty").classList.remove("over"));
+addEventListener("drop",e=>{e.preventDefault();$("#empty").classList.remove("over");e.dataTransfer.files[0]&&load(e.dataTransfer.files[0])});
+
+function modelInfo(file,tris){
+  let proj="",schema="";
+  try{const ids=ifc.GetLineIDsWithType(modelID,WebIFC.IFCPROJECT);if(ids.size()){const l=ifc.GetLine(modelID,ids.get(0),false);proj=l.Name?.value||l.LongName?.value||""}}catch{}
+  try{schema=ifc.GetModelSchema(modelID)}catch{}
+  const st=new Set(elStorey.values()).size;
+  const rows=[["Project",proj],["Schema",schema],["File",file.name],["File size",(file.size/1048576).toFixed(2)+" MB"],["Storeys",st||""],["Elements",byId.size],["Classes",classes.size],["Triangles",tris.toLocaleString()]];
+  $("#minfo").innerHTML=`<dl>${rows.filter(r=>r[1]!=="").map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl>`;
+}
+
+// ---------- visibility / options
+const applyVis=()=>meshes.forEach(m=>{const id=m.userData.id;m.visible=!hiddenI.has(id)&&!hiddenS.has(id)&&!hiddenT.has(typeOf.get(id))&&(!iso||iso.has(id))});
+function applyOpts(){
+  const w=$("#o-wire").checked,x=$("#o-xray").checked,o=$("#o-op").value/100;
+  [...mats,...tmats.values(),selMat,hovMat].forEach(m=>{m.wireframe=w;if(m===selMat||m===hovMat)return;const b=m.userData.o??1,op=x?.22:o*b;m.transparent=op<1;m.opacity=op;m.depthWrite=!(x||op<1);m.needsUpdate=true});
+  grid.visible=$("#o-grid").checked; edges($("#o-edge").checked);
+}
+function edges(on){
+  if(on&&!edgesBuilt&&meshes.length){if(meshes.length>6000)toast("Large model — edges may be slow");
+    meshes.forEach(m=>m.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry,25),edgeMat)));edgesBuilt=true}
+  meshes.forEach(m=>m.children.forEach(c=>c.visible=on));
+}
+["#o-grid","#o-edge","#o-wire","#o-xray"].forEach(s=>$(s).onchange=applyOpts);$("#o-op").oninput=applyOpts;
+$("#fov").oninput=e=>{persp.fov=+e.target.value;persp.updateProjectionMatrix()};
+$("#o-color").onchange=e=>{colorType=e.target.checked;paintAll();applyOpts();renderLegend()};
+function renderLegend(){const el=$("#legend");if(!colorType||!classes.size){el.innerHTML="";return}
+  el.innerHTML=[...classes].sort((a,b)=>b[1].size-a[1].size).slice(0,30).map(([t,s])=>`<div class="lg"><i style="background:#${typeColor(t).getHexString()}"></i>${esc(pretty(t))} <span class="muted">${s.size}</span></div>`).join("")}
+function applyExplode(){
+  if(!meshes.length)return;const f=explode/100*1.2,o=new THREE.Vector3(),T=new THREE.Matrix4();
+  meshes.forEach(m=>{const c=m.userData.c;o.copy(c).sub(mc).multiplyScalar(f);o.y*=1.6;m.matrix.copy(m.userData.m0).premultiply(T.makeTranslation(o.x,o.y,o.z));m.matrixWorldNeedsUpdate=true});
+}
+$("#o-ex").oninput=e=>{explode=+e.target.value;applyExplode()};
+$("#bg").onchange=e=>{const v=e.target.value;$("#bgc").style.display=v=="custom"?"block":"none";document.body.style.background=v=="custom"?$("#bgc").value:v};
+$("#bgc").oninput=e=>document.body.style.background=e.target.value;
+
+// ---------- sections
+function setClips(){
+  if(box.isEmpty())return;
+  AX.forEach((a,i)=>{const {v,s}=S[a],t0=box.min[a],t1=box.max[a],f=v/100,off=s<0?f>=1:f<=0,t=off?(s<0?t1+1:t0-1):t0+(t1-t0)*f;
+    clips[i].normal.set(a=="x"?s:0,a=="y"?s:0,a=="z"?s:0);clips[i].constant=-s*t;$("#cl-"+a).value=v});
+}
+$("#sec").oninput=e=>{const a=e.target.dataset.a;if(a){S[a].v=+e.target.value;setClips()}};
+$("#sec").onclick=e=>{const a=e.target.dataset.flip;if(a){S[a].s*=-1;S[a].v=100-S[a].v;setClips()}};
+$("#clipreset").onclick=()=>{AX.forEach(a=>S[a]={v:100,s:-1});setClips()};
+
+// ---------- tabs
+const tab=t=>{$$(".tabs button").forEach(b=>b.classList.toggle("on",b.dataset.t==t));$$(".pane").forEach(p=>{p.classList.toggle("on",p.id==t);p.style.display=""})};
+$(".tabs").onclick=e=>e.target.dataset.t&&tab(e.target.dataset.t);
+$("#q-pane").remove();
+
+// ---------- trees
+async function buildSpatial(){
+  spatial=null;
+  try{spatial=await ifc.properties.getSpatialStructure(modelID,false)}catch(e){console.warn("spatial",e)}
+  if(!spatial)return;
+  const walk=(n,st)=>{const t=tn(n);if(t==="IFCBUILDINGSTOREY")st=n.expressID;if(st!=null&&n.expressID!==st)elStorey.set(n.expressID,st);(n.children||[]).forEach(c=>walk(c,st))};walk(spatial,null);
+}
+const tn=n=>typeof n.type==="string"?n.type.toUpperCase():(()=>{try{return ifc.GetNameFromTypeCode(n.type)}catch{return "IFCPRODUCT"}})();
+const desc=n=>n._d||(n._d=[n.expressID,...(n.children||[]).flatMap(desc)]);
+function spNode(n){
+  const t=tn(n),kids=n.children||[],id=n.expressID;
+  if(!kids.length){const a=document.createElement("a");a.textContent=nameOf(id);a.title=pretty(t)+" #"+id;if(!byId.has(id))a.className="muted";a.onclick=e=>select(id,e.shiftKey||e.ctrlKey||e.metaKey);return a}
+  const geo=desc(n).filter(i=>byId.has(i)),st=t==="IFCBUILDINGSTOREY",d=document.createElement("details");
+  d.innerHTML=`<summary><input type="checkbox" ${geo.every(i=>!hiddenS.has(i))?"checked":""}><span>${esc(pretty(t))}: ${esc(nameOf(id))}</span>${st?'<button class="mini" data-k="iso">Iso</button><button class="mini" data-k="plan">Plan</button>':""}<b>${geo.length}</b></summary><div class="items"></div>`;
+  d.querySelector("input").onclick=e=>{e.stopPropagation();geo.forEach(i=>e.target.checked?hiddenS.delete(i):hiddenS.add(i));applyVis()};
+  d.querySelectorAll("button").forEach(b=>b.onclick=e=>{e.preventDefault();e.stopPropagation();b.dataset.k=="iso"?isoSet(geo):planView(geo)});
+  d.ontoggle=()=>{if(!d.open||d.dataset.f)return;d.dataset.f=1;const box=d.querySelector(".items");
+    kids.slice(0,300).forEach(k=>box.appendChild(spNode(k)));if(kids.length>300)box.insertAdjacentHTML("beforeend",`<a class="muted">+${kids.length-300} more…</a>`)};
+  if(t==="IFCPROJECT"||t==="IFCSITE"||t==="IFCBUILDING"){d.open=true;d.ontoggle()}
+  return d;
+}
+function buildSpatialTree(){const el=$("#tsp");el.innerHTML="";if(!spatial){el.innerHTML='<div class="muted">No spatial structure found — use the Classes view.</div>';return}el.appendChild(spNode(spatial))}
+function buildTree(){
+  const q=$("#q").value.toLowerCase(),el=$("#tree");el.innerHTML="";
+  [...classes].sort((a,b)=>b[1].size-a[1].size).filter(([t])=>pretty(t).toLowerCase().includes(q)).forEach(([t,ids])=>{
+    const d=document.createElement("details");
+    d.innerHTML=`<summary><input type="checkbox" ${hiddenT.has(t)?"":"checked"}><span>${esc(pretty(t))}</span><b>${ids.size}</b></summary><div class="items"></div>`;
+    d.querySelector("input").onclick=e=>{e.stopPropagation();e.target.checked?hiddenT.delete(t):hiddenT.add(t);applyVis()};
+    d.ontoggle=()=>{if(!d.open||d.dataset.f)return;d.dataset.f=1;const box=d.querySelector(".items");
+      [...ids].slice(0,400).forEach(id=>{const a=document.createElement("a");a.textContent=nameOf(id);a.title="#"+id;a.onclick=e=>select(id,e.shiftKey||e.ctrlKey||e.metaKey);box.appendChild(a)});
+      if(ids.size>400)box.insertAdjacentHTML("beforeend",`<a class="muted">+${ids.size-400} more…</a>`)};
+    el.appendChild(d)});
+  if(!el.children.length)el.textContent="No matching classes.";
+}
+const rebuildTrees=()=>{buildTree();buildSpatialTree()};
+$("#q").oninput=buildTree;
+$("#tmode").onclick=e=>{const m=e.target.dataset.m;if(!m)return;$$("#tmode button").forEach(b=>b.classList.toggle("on",b.dataset.m==m));$("#tsp").style.display=m=="sp"?"":"none";$("#tcl").style.display=m=="cl"?"":"none"};
+function isoSet(ids){iso=new Set(ids);applyVis();toast("Isolated — Show all to exit")}
+function planView(ids){
+  const b=new THREE.Box3();ids.forEach(i=>(byId.get(i)||[]).forEach(m=>b.expandByObject(m)));if(b.isEmpty())return toast("No geometry on this storey");
+  iso=new Set(ids);applyVis();
+  const t=b.min.y+1.3,f=(t-box.min.y)/(box.max.y-box.min.y);S.y={v:Math.max(1,Math.min(99,f*100)),s:-1};setClips();
+  setOrtho(true);frame(b,new THREE.Vector3(0,1,.001));toast("Plan view — Show all & Reset sections to exit");
+}
+
+// ---------- selection
+function paint(id){const ms_=byId.get(id);if(!ms_)return;const t=typeOf.get(id),mt=sel.has(id)?selMat:id===hov?hovMat:null;ms_.forEach(m=>m.material=mt||custom.get(id)||(colorType?typeMat(t):m.userData.base))}
+const paintAll=()=>byId.forEach((_,id)=>paint(id));
+function setSel(ids,pr){const old=sel;sel=new Set(ids);old.forEach(paint);sel.forEach(paint);primary=pr??[...sel].pop()??null;showInfo()}
+function select(id,add){
+  if(id==null)return setSel([],null);
+  if(add){const s=new Set(sel);s.has(id)?s.delete(id):s.add(id);setSel(s,s.has(id)?id:[...s].pop())}else setSel([id],id);
+}
+const valKeys=["NominalValue","LengthValue","AreaValue","VolumeValue","WeightValue","CountValue","TimeValue"];
+const fmt=v=>v===undefined?"":(typeof v=="number"?+v.toFixed(4):String(v));
+const collectMats=(o,out,d=0)=>{if(!o||typeof o!="object"||d>7)return;if(o.type===WebIFC.IFCMATERIAL&&o.Name?.value)out.add(o.Name.value);for(const v of Array.isArray(o)?o:Object.values(o))if(v&&typeof v=="object")collectMats(v,out,d+1)};
+async function showInfo(){
+  const id=primary,el=$("#info");
+  if(id==null){el.innerHTML='<span class="muted">Click an element to inspect it. Shift+click multi-selects, double-click zooms, right-click opens a menu.</span>';lastInfo=null;return}
+  tab("p");
+  const rows=[["Express ID",id]];let name="Unnamed",gid="";
+  try{const l=ifc.GetLine(modelID,id,false);name=l.Name?.value||name;gid=l.GlobalId?.value||"";rows.push(["GlobalId",gid]);
+    for(const k of ["Description","ObjectType","Tag","PredefinedType"]){const v=l[k]?.value;if(v)rows.push([k,v])}}catch{}
+  const st=elStorey.get(id);if(st)rows.push(["Storey",nameOf(st)]);dimsRows(id,rows);
+  const info=lastInfo={id,cls:pretty(typeOf.get(id)||""),name,gid,attrs:rows,psets:[],mats:[],type:""};
+  const dl=r=>`<dl>${r.filter(x=>x[1]!=="").map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>`;
+  const draw=()=>{if(primary!==id)return;
+    let h=sel.size>1?`<div class="note">${sel.size} elements selected · showing last clicked</div>`:"";
+    h+=`<div class="pcard"><small>${esc(info.cls)}</small><h3>${esc(name)}</h3></div><div class="btns" style="margin:0 0 8px"><button id="x-zoom" class="mini">Zoom</button><button id="x-copy" class="mini">Copy ID</button><button id="x-json" class="mini">JSON</button><button id="x-csv" class="mini">CSV</button></div>${dl(rows)}`;
+    if(info.type)h+=`<h4>Type</h4>${dl([["Defined by",info.type]])}`;
+    if(info.mats.length)h+=`<h4>Materials</h4>${dl(info.mats.map((m,i)=>[i+1,m]))}`;
+    info.psets.forEach(p=>h+=`<h4>${esc(p.name)}</h4>${dl(p.items)}`);
+    el.innerHTML=h;
+    $("#x-zoom").onclick=()=>zoomTo([id]);$("#x-copy").onclick=()=>{navigator.clipboard?.writeText(gid||String(id));toast("Copied")};
+    $("#x-json").onclick=()=>download((name||"element")+".json",JSON.stringify(info,null,2),"application/json");
+    $("#x-csv").onclick=()=>{const r=[["Section","Name","Value"],...rows.map(([k,v])=>["Attributes",k,v])];info.psets.forEach(p=>p.items.forEach(([k,v])=>r.push([p.name,k,v])));download((name||"element")+".csv",r.map(x=>x.map(csvq).join(",")).join("\n"),"text/csv")};
+  };
+  draw();
+  try{const ps=await ifc.properties.getPropertySets(modelID,id,true);
+    for(const p of ps){const items=(p.HasProperties||p.Quantities||[]).map(x=>[x.Name?.value||"",fmt(valKeys.map(k=>x[k]?.value).find(v=>v!==undefined))]);if(items.length)info.psets.push({name:p.Name?.value||"Property set",items})}}catch{}
+  draw();
+  try{const ts=await ifc.properties.getTypeProperties(modelID,id,true);if(ts?.length)info.type=`${pretty(ifc.GetNameFromTypeCode(ts[0].type))}: ${ts[0].Name?.value||""}`}catch{}
+  try{const out=new Set(),ms_=await ifc.properties.getMaterialsProperties(modelID,id,true);collectMats(ms_,out);info.mats=[...out]}catch{}
+  draw();
+}
+function zoomTo(ids){const b=new THREE.Box3();ids.forEach(i=>(byId.get(i)||[]).forEach(m=>b.expandByObject(m)));frame(b)}
+
+const ray=new THREE.Raycaster(),ptr=new THREE.Vector2();
+const inClip=p=>clips.every(c=>c.distanceToPoint(p)>=0);
+function pick(e){
+  if(!group)return null;const r=renderer.domElement.getBoundingClientRect();
+  ptr.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(ptr,cam);
+  return ray.intersectObjects(meshes.filter(m=>m.visible),false).find(h=>inClip(h.point))||null;
+}
+function snapPt(h){
+  if(!$("#o-snap").checked)return h.point.clone();
+  const pos=h.object.geometry.attributes.position,th=cam.position.distanceTo(h.point)*.03;let best=null,bd=th;
+  for(const i of [h.face.a,h.face.b,h.face.c]){const v=new THREE.Vector3().fromBufferAttribute(pos,i).applyMatrix4(h.object.matrixWorld),d=v.distanceTo(h.point);if(d<bd){bd=d;best=v}}
+  return best||h.point.clone();
+}
+let down=null,rdown=null,hovT=0,ctxHit=null;
+const dom=renderer.domElement;
+dom.addEventListener("pointerdown",e=>{down=[e.clientX,e.clientY];if(e.button==2)rdown=[e.clientX,e.clientY];$("#ctx").style.display="none"});
+dom.addEventListener("pointerup",e=>{
+  if(e.button!==0||!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>4)return;const h=pick(e);
+  if(measure){if(h)measureClick(h);return}
+  if(noteMode){if(h)addNote(h.point);return}
+  select(h?h.object.userData.id:null,e.shiftKey||e.ctrlKey||e.metaKey);
+});
+dom.addEventListener("pointermove",e=>{
+  if(e.buttons||measure||noteMode||!$("#o-hov").checked||!group||meshes.length>4000)return;const n=performance.now();if(n-hovT<60)return;hovT=n;
+  const h=pick(e),id=h?h.object.userData.id:null;if(id!==hov){const o=hov;hov=id;paint(o);paint(id);dom.style.cursor=id?"pointer":""}
+});
+dom.addEventListener("dblclick",e=>{const h=pick(e);if(h)zoomTo([h.object.userData.id])});
+dom.addEventListener("contextmenu",e=>{e.preventDefault();if(!rdown||Math.hypot(e.clientX-rdown[0],e.clientY-rdown[1])>4)return;
+  const h=pick(e);if(!h)return;ctxHit=h;const id=h.object.userData.id,t=typeOf.get(id),c=$("#ctx");
+  c.innerHTML=`<button data-c="zoom">Zoom to</button><button data-c="iso">Isolate</button><button data-c="hide">Hide</button><button data-c="hidecls">Hide all ${esc(pretty(t))}</button><button data-c="selcls">Select all ${esc(pretty(t))}</button><button data-c="note">Add note here</button><button data-c="copy">Copy GlobalId</button><button data-c="similar">Select similar (class)</button><button data-c="face">Section from face</button><button data-c="orbit">Orbit around here</button><button data-c="issue">Create issue here</button>`;
+  c.style.display="block";c.style.left=Math.min(e.clientX,innerWidth-200)+"px";c.style.top=Math.min(e.clientY,innerHeight-240)+"px"});
+$("#ctx").onclick=e=>{const k=e.target.dataset.c;if(!k)return;const id=ctxHit.object.userData.id,t=typeOf.get(id);$("#ctx").style.display="none";
+  if(k=="zoom")zoomTo([id]);else if(k=="iso")isoSet(sel.has(id)?sel:[id]);else if(k=="hide"){(sel.has(id)?sel:[id]).forEach?.call(sel.has(id)?sel:[id],i=>hiddenI.add(i));applyVis()}
+  else if(k=="hidecls"){hiddenT.add(t);applyVis();buildTree()}else if(k=="selcls")setSel(classes.get(t),id);
+  else if(k=="note")addNote(ctxHit.point);else if(k=="copy"){try{navigator.clipboard.writeText(ifc.GetLine(modelID,id,false).GlobalId.value);toast("Copied")}catch{}}};
+addEventListener("click",e=>{if(!e.target.closest("#ctx"))$("#ctx").style.display="none"});
+
+// ---------- search
+function fillClassSelect(){$("#sc").innerHTML='<option value="">All classes</option>'+[...classes].sort((a,b)=>b[1].size-a[1].size).map(([t,s])=>`<option value="${t}">${esc(pretty(t))} (${s.size})</option>`).join("")}
+async function buildIndex(deep){
+  if(index&&(!deep||index.deep))return;busy(true,"Indexing elements…");await frames();const arr=[];let n=0;
+  for(const id of byId.keys()){let name="",gid="",ot="",tag="",extra="";
+    try{const l=ifc.GetLine(modelID,id,false);name=l.Name?.value||"";gid=l.GlobalId?.value||"";ot=l.ObjectType?.value||"";tag=l.Tag?.value||""}catch{}
+    if(deep){try{const ps=await ifc.properties.getPropertySets(modelID,id,true),o=[];ps.forEach(p=>{o.push(p.Name?.value||"");(p.HasProperties||p.Quantities||[]).forEach(x=>o.push(x.Name?.value||"",fmt(valKeys.map(k=>x[k]?.value).find(v=>v!==undefined))))});extra=o.join(" ")}catch{}}
+    arr.push({id,t:typeOf.get(id),name,s:[name,gid,ot,tag,pretty(typeOf.get(id)),extra].join(" ").toLowerCase()});
+    if(++n%150==0){$("#busytxt").textContent=`Indexing elements… ${n}/${byId.size}`;await tick()}}
+  index={deep,arr};busy(false);
+}
+let sT;
+async function runSearch(){
+  const q=$("#sq").value.trim().toLowerCase(),cl=$("#sc").value,el=$("#sres");if(!modelID)return;
+  if(!q&&!cl){results=[];el.className="lst muted";el.textContent="Type to search elements.";return}
+  await buildIndex($("#sdeep").checked);
+  const terms=q.split(/\s+/).filter(Boolean);
+  results=index.arr.filter(r=>(!cl||r.t==cl)&&terms.every(t=>r.s.includes(t)));
+  el.className="lst";el.innerHTML=results.length?results.slice(0,200).map(r=>`<a data-i="${r.id}" title="#${r.id}"><span>${esc(r.name||"Unnamed")} <small class="muted">${esc(pretty(r.t))}</small></span></a>`).join("")+(results.length>200?`<a class="muted">+${results.length-200} more (use buttons below)</a>`:""):'<span class="muted">No matches.</span>';
+  if(results.length)toast(results.length+" match"+(results.length>1?"es":""));
+}
+$("#sq").oninput=()=>{clearTimeout(sT);sT=setTimeout(runSearch,250)};$("#sc").onchange=runSearch;$("#sdeep").onchange=runSearch;
+$("#sres").onclick=e=>{const a=e.target.closest("a[data-i]");if(a){const id=+a.dataset.i;select(id);zoomTo([id])}};
+$("#s-sel").onclick=()=>{if(results.length){setSel(results.map(r=>r.id));zoomTo(results.map(r=>r.id))}};
+$("#s-iso").onclick=()=>results.length&&isoSet(results.map(r=>r.id));
+$("#s-hide").onclick=()=>{results.forEach(r=>hiddenI.add(r.id));applyVis()};
+
+// ---------- measure
+function clearPending(){clearTmp();pend=null;if(pendMark){scene.remove(pendMark);pendMark=null}}
+function mark(p){const s=box.getSize(new THREE.Vector3()).length()/250,mk=new THREE.Mesh(new THREE.SphereGeometry(s,12,12),new THREE.MeshBasicMaterial({color:0xff6d00,depthTest:false}));mk.position.copy(p);mk.renderOrder=9;scene.add(mk);return mk}
+function clearMeasure(){clearPending();ms.forEach(m=>{rmM(m);m.el.remove()});ms=[];renderMeasures()}
+function addPoint(p){
+  if(!pend){pend=p.clone();pendMark=mark(p);return}
+  const a=pend.clone(),b=p.clone(),m1=pendMark;clearPending();
+  const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints([a,b]),new THREE.LineBasicMaterial({color:0xff6d00,depthTest:false}));line.renderOrder=9;scene.add(line);
+  const el=label("ml");el.textContent=a.distanceTo(b).toFixed(3)+" m";ms.push({a,b,line,m1,m2:mark(b),el});renderMeasures();
+}
+function _rm0(){const el=$("#msl");if(!ms.length){el.className="lst muted";el.textContent="None. Use 📏 and click two points.";return}
+  el.className="lst";el.innerHTML=ms.map((m,i)=>{const d=m.b.clone().sub(m.a);return `<a data-i="${i}"><span>${i+1}: <b>${m.a.distanceTo(m.b).toFixed(3)} m</b> <small class="muted">Δx ${Math.abs(d.x).toFixed(2)} · Δy ${Math.abs(d.y).toFixed(2)} · Δz ${Math.abs(d.z).toFixed(2)}</small></span><u data-d="${i}">✕</u></a>`}).join("")+`<a class="muted"><span>Total: ${ms.reduce((s,m)=>s+m.a.distanceTo(m.b),0).toFixed(3)} m</span></a>`}
+$("#msl").onclick=e=>{const d=e.target.dataset.d;if(d==null)return;const m=ms.splice(+d,1)[0];rmM(m);m.el.remove();renderMeasures()};
+$("#ms-clr").onclick=clearMeasure;
+const setMeasure=on=>{measure=on;if(on)setNote(false);$("#b-measure").classList.toggle("on",on);if(!on)clearPending();dom.style.cursor=on?"crosshair":"";if(on)toast("Click two points to measure")};
+
+// ---------- notes
+function addNote(p){const text=prompt("Note text:");if(!text)return;const el=label("pin");el.textContent=notes.length+1;const n={pos:p.clone(),text,el};
+  el.title=text;el.onclick=()=>{flyTo(n.pos.clone().add(cam.position.clone().sub(controls.target)),n.pos.clone());toast(text)};notes.push(n);renderNotes()}
+function renderNotes(){notes.forEach((n,i)=>n.el.textContent=i+1);const el=$("#ntl");if(!notes.length){el.className="lst muted";el.textContent="None. Use 📝 and click the model.";return}
+  el.className="lst";el.innerHTML=notes.map((n,i)=>`<a data-i="${i}"><span>${i+1}. ${esc(n.text)}</span><u data-d="${i}">✕</u></a>`).join("")}
+$("#ntl").onclick=e=>{const d=e.target.dataset.d,a=e.target.closest("a[data-i]");if(d!=null){notes.splice(+d,1)[0].el.remove();renderNotes()}else if(a)notes[+a.dataset.i].el.click()};
+const setNote=on=>{noteMode=on;if(on)setMeasure(false);$("#b-note").classList.toggle("on",on);dom.style.cursor=on?"crosshair":"";if(on)toast("Click the model to place a note")};
+
+// ---------- saved views
+function viewState(name){renderer.render(scene,cam);const c=document.createElement("canvas");c.width=96;c.height=60;const x=c.getContext("2d");x.fillStyle="#e9dccd";x.fillRect(0,0,96,60);x.drawImage(dom,0,0,96,60);
+  return {name,thumb:c.toDataURL("image/jpeg",.6),pos:cam.position.toArray(),tgt:controls.target.toArray(),ortho:cam===ortho,zoom:ortho.zoom,oh:orthoH,fov:persp.fov,S:JSON.parse(JSON.stringify(S)),hT:[...hiddenT],hI:[...hiddenI],hS:[...hiddenS],iso:iso?[...iso]:null,sel:[...sel],ct:colorType,ex:explode}}
+function restoreView(v){
+  setOrtho(v.ortho);persp.fov=v.fov;$("#fov").value=v.fov;persp.updateProjectionMatrix();if(v.ortho){orthoH=v.oh;ortho.zoom=v.zoom;updateOrtho()}
+  flyTo(new THREE.Vector3().fromArray(v.pos),new THREE.Vector3().fromArray(v.tgt));
+  hiddenT=new Set(v.hT);hiddenI=new Set(v.hI);hiddenS=new Set(v.hS);iso=v.iso?new Set(v.iso):null;S.x=v.S.x;S.y=v.S.y;S.z=v.S.z;setClips();
+  colorType=!!v.ct;$("#o-color").checked=colorType;explode=v.ex||0;$("#o-ex").value=explode;applyExplode();applyVis();paintAll();applyOpts();renderLegend();rebuildTrees();setSel(v.sel||[],null);
+}
+function renderViews(){const el=$("#svl");if(!views.length){el.className="lst muted";el.textContent="No saved views.";return}
+  el.className="lst";el.innerHTML=views.map((v,i)=>`<a data-i="${i}"><img src="${v.thumb}"><span>${esc(v.name)}</span><u data-d="${i}">✕</u></a>`).join("")}
+$("#svl").onclick=e=>{const d=e.target.dataset.d,a=e.target.closest("a[data-i]");if(d!=null){views.splice(+d,1);renderViews()}else if(a)restoreView(views[+a.dataset.i])};
+$("#sv-add").onclick=()=>{if(!modelID)return toast("Load a model first");const n=prompt("View name:","View "+(views.length+1));if(n){views.push(viewState(n));renderViews()}};
+$("#sv-exp").onclick=()=>download("danem-views.json",JSON.stringify({views,notes:notes.map(n=>({pos:n.pos.toArray(),text:n.text}))}),"application/json");
+$("#sv-imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text());(j.views||[]).forEach(v=>views.push(v));(j.notes||[]).forEach(n=>{const p=new THREE.Vector3().fromArray(n.pos),el=label("pin");el.title=n.text;const o={pos:p,text:n.text,el};el.onclick=()=>toast(n.text);notes.push(o)});renderViews();renderNotes();toast("Imported")}catch{toast("Invalid file")}e.target.value=""};
+
+// ---------- export
+$("#ex-csv").onclick=async()=>{if(!modelID)return toast("Load a model first");busy(true,"Exporting…");await frames();
+  const rows=[["ExpressID","Class","Name","GlobalId","ObjectType","Tag","Storey"]];let n=0;
+  for(const id of byId.keys()){let l={};try{l=ifc.GetLine(modelID,id,false)}catch{}rows.push([id,pretty(typeOf.get(id)),l.Name?.value,l.GlobalId?.value,l.ObjectType?.value,l.Tag?.value,elStorey.has(id)?nameOf(elStorey.get(id)):""]);if(++n%500==0)await tick()}
+  busy(false);download((fileName.replace(/\.ifc$/i,"")||"model")+"-elements.csv",rows.map(r=>r.map(csvq).join(",")).join("\n"),"text/csv")};
+
+// ---------- toolbar
+const resetAll=()=>{hiddenI.clear();hiddenT.clear();hiddenS.clear();iso=null;AX.forEach(a=>S[a]={v:100,s:-1});setClips();explode=0;$("#o-ex").value=0;applyExplode();applyVis();setSel([],null);rebuildTrees()};
+$("#resetall").onclick=()=>{resetAll();["#o-wire","#o-xray","#o-edge","#o-color"].forEach(s=>$(s).checked=false);colorType=false;$("#o-op").value=100;paintAll();applyOpts();renderLegend();setOrtho(false);acts.fit()};
+const need=()=>box.isEmpty()?(toast("Load a model first"),true):false;
+const acts={
+  fit:()=>!need()&&frame(box,new THREE.Vector3(1,.8,1)),iso:()=>acts.fit(),
+  top:()=>!need()&&frame(box,new THREE.Vector3(0,1,.001)),front:()=>!need()&&frame(box,new THREE.Vector3(0,.12,1)),side:()=>!need()&&frame(box,new THREE.Vector3(1,.12,0)),
+  ortho:()=>setOrtho(cam!==ortho),
+  walk:()=>{walk=!walk;keys.clear();$("#b-walk").classList.toggle("on",walk);toast(walk?"Walk mode: W A S D move, Q/E down/up, Shift = fast":"Walk mode off")},
+  measure:()=>setMeasure(!measure),note:()=>setNote(!noteMode),
+  hide:()=>{if(!sel.size)return toast("Select an element first");sel.forEach(i=>hiddenI.add(i));applyVis();setSel([],null)},
+  isolate:()=>{if(iso){iso=null;toast("Isolation off")}else if(sel.size){iso=new Set(sel);toast("Isolated — press again to exit")}else toast("Select an element first");applyVis()},
+  showall:()=>{hiddenI.clear();hiddenT.clear();hiddenS.clear();iso=null;applyVis();rebuildTrees()},
+  shot:()=>{renderer.render(scene,cam);dom.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="danem-ifc-view.png";a.click()})}
+};
+$("#tb").onclick=e=>{const a=e.target.closest("button")?.dataset.act;a&&acts[a]()};
+addEventListener("keydown",e=>{if(e.target.tagName=="INPUT"&&e.target.type=="text"||e.ctrlKey||e.metaKey)return;
+  const k=e.key.toLowerCase();
+  if(walk&&"wasdqe".includes(k)&&k.length==1){keys.add(k);e.preventDefault();return}if(e.key=="Shift")keys.add("shift");
+  if(k=="f")acts.fit();else if(k=="h")acts.hide();else if(k=="i")acts.isolate();else if(k=="m")acts.measure();else if(k=="n")acts.note();else if(k=="o")acts.ortho();
+  else if(k=="escape"){setMeasure(false);setNote(false);setSel([],null);$("#ctx").style.display="none"}});
+addEventListener("keyup",e=>{keys.delete(e.key.toLowerCase())});
+addEventListener("blur",()=>keys.clear());
+
+// ================= Trimble Connect-style additions =================
+const custom=new Map();let ghostOn=false;
+const ghostMat=new THREE.MeshLambertMaterial({color:0x9a9a9a,transparent:true,opacity:.08,depthWrite:false,side:THREE.DoubleSide,clippingPlanes:clips});
+const selBox=ids=>{const b=new THREE.Box3();(ids||[]).forEach(i=>(byId.get(i)||[]).forEach(m=>b.expandByObject(m)));return b};
+const off=p=>{p.normal.set(0,-1,0);p.constant=1e6};
+function dimsRows(id,rows){const b=selBox([id]);if(b.isEmpty())return;const z=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());
+  rows.push(["Bounding box",`${z.x.toFixed(3)} × ${z.z.toFixed(3)} × ${z.y.toFixed(3)} m`],["Centre E, N, Elev",`${c.x.toFixed(2)}, ${(-c.z).toFixed(2)}, ${c.y.toFixed(2)}`])}
+
+// --- hover tooltip
+dom.addEventListener("pointermove",e=>{const t=$("#tip");if(hov!=null&&!e.buttons&&!measure&&!noteMode&&$("#o-hov").checked){t.textContent=nameOf(hov)+" · "+pretty(typeOf.get(hov));t.style.left=e.clientX+"px";t.style.top=e.clientY+"px";t.style.display="block"}else t.style.display="none"});
+dom.addEventListener("pointerleave",()=>$("#tip").style.display="none");
+
+// --- appearance: colour / transparent / ghost
+function setLook(ids,color,op){[...ids].forEach(id=>{const ms_=byId.get(id);if(!ms_)return;const m=new THREE.MeshLambertMaterial({color:color?new THREE.Color(color):ms_[0].userData.base.color.clone(),side:THREE.DoubleSide,clippingPlanes:clips});
+  m.transparent=op<1;m.opacity=op;m.depthWrite=op>=1;custom.set(id,m);paint(id)})}
+const needSel=()=>sel.size?false:(toast("Select an element first"),true);
+$("#ap-cb").onclick=()=>!needSel()&&setLook(sel,$("#ap-c").value,1);
+$("#ap-ob").onclick=()=>!needSel()&&setLook(sel,null,$("#ap-o").value/100);
+$("#ap-rs").onclick=()=>{custom.clear();ghostOn=false;paintAll();toast("Appearance reset")};
+function toggleGhost(){if(ghostOn){[...custom].forEach(([k,v])=>v===ghostMat&&custom.delete(k));ghostOn=false}else{if(needSel())return;byId.forEach((_,id)=>{if(!sel.has(id))custom.set(id,ghostMat)});ghostOn=true}paintAll()}
+
+// --- selection helpers + sets
+$("#sl-cls").onclick=()=>{if(!needSel())setSel(classes.get(typeOf.get(primary)),primary)};
+$("#sl-nm").onclick=()=>{if(needSel())return;const n=nameOf(primary),t=typeOf.get(primary);setSel([...byId.keys()].filter(i=>typeOf.get(i)==t&&nameOf(i)==n),primary)};
+$("#sl-inv").onclick=()=>{if(!byId.size)return;setSel([...byId.keys()].filter(i=>!sel.has(i)&&!hiddenI.has(i)))};
+const sets=[];
+function renderSets(){const el=$("#ssl");el.className=sets.length?"lst":"lst muted";el.innerHTML=sets.length?sets.map((x,i)=>`<a data-i="${i}"><span>${esc(x.name)} <small class="muted">${x.ids.length}</small></span><u data-d="${i}">✕</u></a>`).join(""):"None."}
+$("#ss-add").onclick=()=>{if(needSel())return;const n=prompt("Set name:","Set "+(sets.length+1));if(n){sets.push({name:n,ids:[...sel]});renderSets()}};
+$("#ssl").onclick=e=>{const d=e.target.dataset.d,a=e.target.closest("a[data-i]");if(d!=null){sets.splice(+d,1);renderSets()}else if(a){const x=sets[+a.dataset.i];setSel(x.ids);zoomTo(x.ids)}};
+
+// --- section box / face plane
+$("#sb-sel").onclick=()=>{if(needSel())return;const b=selBox([...sel]);AX.forEach((a,i)=>{const n0=new THREE.Vector3(),n1=new THREE.Vector3();n0[a]=1;n1[a]=-1;
+  clips[3+i*2].normal.copy(n0);clips[3+i*2].constant=-(b.min[a]-.05);clips[4+i*2].normal.copy(n1);clips[4+i*2].constant=b.max[a]+.05});toast("Section box set")};
+const boxOff=()=>{for(let i=3;i<10;i++)off(clips[i])};
+$("#sb-clr").onclick=boxOff;$("#clipreset").addEventListener("click",boxOff);
+function faceSection(h){const n=h.face.normal.clone().transformDirection(h.object.matrixWorld);if(n.dot(cam.position.clone().sub(h.point))<0)n.negate();clips[9].setFromNormalAndCoplanarPoint(n.negate(),h.point);toast("Section from face — clear it in the Section tab")}
+
+// --- extended measuring
+let mpts=[],mTm=[],mTl=null;
+const mm=()=>$("#mmode").value;
+function clearTmp(){mTm.forEach(o=>scene.remove(o));mTm=[];mpts=[];if(mTl){scene.remove(mTl);mTl=null}}
+function mkLine(pts,closed){const l=new THREE.Line(new THREE.BufferGeometry().setFromPoints(closed?[...pts,pts[0]]:pts),new THREE.LineBasicMaterial({color:0xff6d00,depthTest:false}));l.renderOrder=9;scene.add(l);return l}
+function rmM(m){[m.m1,m.m2,m.line,...(m.extra||[])].forEach(o=>o&&scene.remove(o))}
+function pushM(anchor,text,marks,line){const el=label("ml");el.textContent=text;ms.push({a:anchor,b:anchor,m1:marks[0],m2:marks[1]||marks[0],extra:marks.slice(2),line,el,txt:text});renderMeasures()}
+function wv(id){const arr=byId.get(id),out=[];arr.forEach(m=>{const p=m.geometry.attributes.position,n=p.count,st=Math.max(1,Math.ceil(n*arr.length/3000));for(let k=0;k<n;k+=st)out.push(new THREE.Vector3().fromBufferAttribute(p,k).applyMatrix4(m.matrixWorld))});return out}
+function minDist(i,j){const A=wv(i),B=wv(j);let best=1e18,pa,pb;for(const a of A)for(const b of B){const d=a.distanceToSquared(b);if(d<best){best=d;pa=a;pb=b}}return[Math.sqrt(best),pa,pb]}
+let mObj=[];
+function measureClick(h){
+  const mode=mm();if(mode=="dist")return addPoint(snapPt(h));const p=snapPt(h);
+  if(mode=="coord"){pushM(p,`E ${p.x.toFixed(3)} · N ${(-p.z).toFixed(3)} · Z ${p.y.toFixed(3)}`,[mark(p)],new THREE.Object3D());return}
+  if(mode=="obj"){const id=h.object.userData.id;if(!mObj.length){mObj=[id];mTm.push(mark(p));return}if(id==mObj[0])return toast("Pick a different object");
+    const[d,pa,pb]=minDist(mObj[0],id);clearTmp();mObj=[];pushM(pa.clone().add(pb).multiplyScalar(.5),"≈ "+d.toFixed(3)+" m (min)",[mark(pa),mark(pb)],mkLine([pa,pb]));return}
+  mpts.push(p);mTm.push(mark(p));
+  if(mode=="angle"&&mpts.length==3){const[A,B,C]=mpts,ang=A.clone().sub(B).angle(C.clone().sub(B))*180/Math.PI,mk_=mTm.slice();mTm=[];mpts=[];pushM(B,ang.toFixed(2)+"°",mk_,mkLine([A,B,C]))}
+  else if(mode=="area"){if(mTl)scene.remove(mTl);if(mpts.length>1)mTl=mkLine(mpts,mpts.length>2)}
+}
+function finishArea(){if(mm()!="area"||mpts.length<3)return toast("Pick at least 3 points");
+  const n=new THREE.Vector3(),c=new THREE.Vector3();let per=0;mpts.forEach((p,i)=>{const q=mpts[(i+1)%mpts.length];n.add(new THREE.Vector3().crossVectors(p,q));per+=p.distanceTo(q);c.add(p)});
+  c.multiplyScalar(1/mpts.length);const mk_=mTm.slice(),pts=mpts.slice();if(mTl)scene.remove(mTl);mTl=null;mTm=[];mpts=[];
+  pushM(c,`${(n.length()/2).toFixed(3)} m² · P ${per.toFixed(2)} m`,mk_,mkLine(pts,true))}
+$("#m-fin").onclick=finishArea;$("#mmode").onchange=()=>{clearPending();mObj=[]};
+function renderMeasures(){const el=$("#msl");if(!ms.length){el.className="lst muted";el.textContent="None. Use 📏 and click points.";return}
+  const dd=ms.filter(m=>!m.txt);el.className="lst";
+  el.innerHTML=ms.map((m,i)=>{if(m.txt)return `<a data-i="${i}"><span>${i+1}: <b>${esc(m.txt)}</b></span><u data-d="${i}">✕</u></a>`;const d=m.b.clone().sub(m.a);
+    return `<a data-i="${i}"><span>${i+1}: <b>${m.a.distanceTo(m.b).toFixed(3)} m</b> <small class="muted">Δx ${Math.abs(d.x).toFixed(2)} · Δy ${Math.abs(d.y).toFixed(2)} · Δz ${Math.abs(d.z).toFixed(2)}</small></span><u data-d="${i}">✕</u></a>`}).join("")
+    +(dd.length>1?`<a class="muted"><span>Total: ${dd.reduce((s,m)=>s+m.a.distanceTo(m.b),0).toFixed(3)} m</span></a>`:"")}
+
+// --- clash check (bounding-box based, approximate)
+function fillClash(){const o='<option value="">— class —</option>'+[...classes].sort((a,b)=>b[1].size-a[1].size).map(([t,s])=>`<option value="${t}">${esc(pretty(t))} (${s.size})</option>`).join("");$("#cl-a").innerHTML=o;$("#cl-b").innerHTML=o}
+$("#cl-run").onclick=async()=>{const A=$("#cl-a").value,B=$("#cl-b").value;if(!A||!B)return toast("Pick two classes");const tol=+$("#cl-t").value||0;
+  busy(true,"Checking clashes…");await frames();const bb=t=>[...classes.get(t)].filter(i=>byId.has(i)).map(i=>[i,selBox([i])]),a=bb(A),b=A==B?a:bb(B),out=[];
+  for(let i=0;i<a.length;i++)for(let j=A==B?i+1:0;j<b.length;j++){const p=a[i][1],q=b[j][1],ox=Math.min(p.max.x,q.max.x)-Math.max(p.min.x,q.min.x),oy=Math.min(p.max.y,q.max.y)-Math.max(p.min.y,q.min.y),oz=Math.min(p.max.z,q.max.z)-Math.max(p.min.z,q.min.z);
+    if(ox>tol&&oy>tol&&oz>tol)out.push([a[i][0],b[j][0],ox*oy*oz])}
+  busy(false);out.sort((x,y)=>y[2]-x[2]);const el=$("#cl-l");window._clash=out;el.className=out.length?"lst":"lst muted";
+  el.innerHTML=out.length?out.slice(0,200).map((r,i)=>`<a data-i="${i}"><span>${esc(nameOf(r[0]))} ✕ ${esc(nameOf(r[1]))} <small class="muted">${r[2].toFixed(4)} m³</small></span></a>`).join(""):"No clashes found.";toast(out.length+" clash"+(out.length==1?"":"es"))};
+$("#cl-l").onclick=e=>{const a=e.target.closest("a[data-i]");if(!a)return;const r=window._clash[+a.dataset.i];setSel([r[0],r[1]]);zoomTo([r[0],r[1]])};
+
+// --- issues (BCF-style topics with viewpoint)
+const ST=["Open","In progress","Resolved","Closed"],PR=["Low","Normal","High","Critical"];
+const issues=window.ISS=[];let issAt=null,mkImg=null;
+const opt=(a,v)=>a.map(x=>`<option${x==v?" selected":""}>${x}</option>`).join("");
+function snap(w,h){renderer.render(scene,cam);const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.fillStyle="#e9dccd";x.fillRect(0,0,w,h);
+  const r=dom.width/dom.height,cr=w/h;let sw=dom.width,sh=dom.height,sx=0,sy=0;if(r>cr){sw=dom.height*cr;sx=(dom.width-sw)/2}else{sh=dom.width/cr;sy=(dom.height-sh)/2}x.drawImage(dom,sx,sy,sw,sh,0,0,w,h);return c.toDataURL("image/jpeg",.75)}
+const anchorPt=()=>{const b=selBox([...sel]);return b.isEmpty()?controls.target.clone():b.getCenter(new THREE.Vector3())};
+function newIssue(pt){if(need())return;issAt=pt||anchorPt();issueForm(null)}
+function mkPin(n){n.el.textContent=n.id;n.el.title=n.title;n.el.onclick=()=>{issueForm(n);restoreView(n.vp)}}
+function issueForm(i){
+  tab("is");const v=i||{title:"",desc:"",status:"Open",priority:"Normal",assignee:"",due:""},f=$("#isf");
+  f.innerHTML=`<input type="text" id="i-t" placeholder="Title" value="${esc(v.title)}"><input type="text" id="i-d" placeholder="Description" value="${esc(v.desc)}"><select id="i-s">${opt(ST,v.status)}</select><select id="i-p">${opt(PR,v.priority)}</select><input type="text" id="i-a" placeholder="Assignee" value="${esc(v.assignee)}"><input type="date" id="i-u" value="${esc(v.due)}">`
+   +(!i&&mkImg?'<label class="row">Attach markup image<input type="checkbox" id="i-m" checked></label>':"")
+   +(i?`${i.img?`<img src="${i.img}" style="width:100%;border-radius:10px;margin-bottom:8px">`:""}<h4>Comments</h4>${i.comments.map(c=>`<div class="note">${esc(c)}</div>`).join("")||'<div class="muted">None.</div>'}<input type="text" id="i-c" placeholder="Add a comment…" style="margin-top:8px">`:"")
+   +`<div class="btns"><button class="pri" id="i-ok">${i?"Update":"Create"}</button><button id="i-no">Close</button>${i?'<button id="i-go">Go to view</button>':""}</div>`;
+  $("#i-no").onclick=()=>{f.innerHTML="";mkImg=null};if(i)$("#i-go").onclick=()=>restoreView(i.vp);
+  $("#i-ok").onclick=()=>{const t=$("#i-t").value.trim();if(!t)return toast("Enter a title");
+    const d={title:t,desc:$("#i-d").value,status:$("#i-s").value,priority:$("#i-p").value,assignee:$("#i-a").value,due:$("#i-u").value};
+    if(i){Object.assign(i,d);const c=$("#i-c").value.trim();if(c)i.comments.push(c);i.el.title=t;toast("Issue updated")}
+    else{const n={...d,id:issues.length?Math.max(...issues.map(x=>x.id))+1:1,created:new Date().toISOString(),comments:[],pos:issAt,vp:viewState(t),img:($("#i-m")?.checked&&mkImg)?mkImg:snap(640,400),el:label("pin iss")};mkPin(n);issues.push(n);toast("Issue created")}
+    mkImg=null;f.innerHTML="";renderIssues()}}
+function renderIssues(){const el=$("#isl"),fl=$("#isfl").value,L=issues.filter(x=>!fl||x.status==fl);issues.forEach(n=>n.el.style.visibility=!fl||n.status==fl?"":"hidden");
+  el.className=L.length?"lst":"lst muted";el.innerHTML=L.length?L.map(n=>`<a data-i="${n.id}"><img src="${n.vp.thumb}"><span>#${n.id} ${esc(n.title)} <small class="muted">${n.status} · ${n.priority}${n.assignee?" · "+esc(n.assignee):""}</small></span><u data-d="${n.id}">✕</u></a>`).join(""):"No issues. Use ＋ New issue or right-click an element."}
+$("#isl").onclick=e=>{const d=e.target.dataset.d,a=e.target.closest("a[data-i]");if(d!=null){const k=issues.findIndex(x=>x.id==+d);if(k>=0){issues[k].el.remove();issues.splice(k,1);renderIssues();$("#isf").innerHTML=""}}else if(a){const n=issues.find(x=>x.id==+a.dataset.i);if(n){issueForm(n);restoreView(n.vp)}}};
+$("#isfl").onchange=renderIssues;$("#is-new").onclick=()=>newIssue();
+$("#is-json").onclick=()=>download("danem-issues.json",JSON.stringify({issues:issues.map(({el,pos,...r})=>({...r,pos:pos.toArray()}))}),"application/json");
+$("#is-csv").onclick=()=>download("danem-issues.csv",[["ID","Title","Description","Status","Priority","Assignee","Due","Created","Comments"],...issues.map(n=>[n.id,n.title,n.desc,n.status,n.priority,n.assignee,n.due,n.created,n.comments.join(" | ")])].map(r=>r.map(csvq).join(",")).join("\n"),"text/csv");
+$("#is-imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text());(j.issues||[]).forEach(r=>{const n={...r,pos:new THREE.Vector3().fromArray(r.pos),el:label("pin iss")};if(issues.some(x=>x.id==n.id))n.id=Math.max(...issues.map(x=>x.id))+1;mkPin(n);issues.push(n)});renderIssues();toast("Issues imported")}catch{toast("Invalid file")}e.target.value=""};
+function resetExtras(){issues.forEach(n=>n.el.remove());issues.length=0;sets.length=0;renderIssues();renderSets();boxOff();mObj=[]}
+
+// --- markup on snapshot
+const mkc=$("#mkc"),mx=mkc.getContext("2d");let mkT="pen",mkS=[],mkCur=null,mkI=null;
+function mkDraw(){mx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue("--bg2").trim()||"#fff";mx.fillRect(0,0,mkc.width,mkc.height);if(mkI)mx.drawImage(mkI,0,0,mkc.width,mkc.height);
+  [...mkS,...(mkCur?[mkCur]:[])].forEach(s=>{mx.strokeStyle=mx.fillStyle=s.c;mx.lineWidth=3;mx.lineCap=mx.lineJoin="round";const p=s.p[0],q=s.p[s.p.length-1];
+    if(s.t=="pen"){mx.beginPath();s.p.forEach((u,k)=>k?mx.lineTo(u[0],u[1]):mx.moveTo(u[0],u[1]));mx.stroke()}
+    else if(s.t=="rect")mx.strokeRect(p[0],p[1],q[0]-p[0],q[1]-p[1]);
+    else if(s.t=="arrow"){const a=Math.atan2(q[1]-p[1],q[0]-p[0]);mx.beginPath();mx.moveTo(p[0],p[1]);mx.lineTo(q[0],q[1]);mx.moveTo(q[0]-16*Math.cos(a-.4),q[1]-16*Math.sin(a-.4));mx.lineTo(q[0],q[1]);mx.lineTo(q[0]-16*Math.cos(a+.4),q[1]-16*Math.sin(a+.4));mx.stroke()}
+    else if(s.t=="text"){mx.font="700 20px Inter,sans-serif";mx.fillText(s.x,p[0],p[1])}})}
+function openMk(){if(need())return;renderer.render(scene,cam);mkc.width=cv.clientWidth;mkc.height=cv.clientHeight;mkS=[];mkCur=null;mkI=new Image();mkI.onload=mkDraw;mkI.src=dom.toDataURL();$("#mk").style.display="block";$("#mkbar").style.display="flex"}
+const closeMk=()=>{$("#mk").style.display="none";$("#mkbar").style.display="none"};
+mkc.onpointerdown=e=>{const p=[e.offsetX,e.offsetY],c=$("#mkcol").value;if(mkT=="text"){const x=prompt("Text:");if(x){mkS.push({t:"text",c,p:[p],x});mkDraw()}return}mkCur={t:mkT,c,p:[p,p]};mkc.setPointerCapture(e.pointerId)};
+mkc.onpointermove=e=>{if(!mkCur)return;const p=[e.offsetX,e.offsetY];mkT=="pen"?mkCur.p.push(p):mkCur.p[1]=p;mkDraw()};
+mkc.onpointerup=()=>{if(mkCur){mkS.push(mkCur);mkCur=null;mkDraw()}};
+$("#mkbar").onclick=e=>{const k=e.target.dataset.k;if(!k)return;
+  if(["pen","arrow","rect","text"].includes(k)){mkT=k;$$("#mkbar button").forEach(b=>["pen","arrow","rect","text"].includes(b.dataset.k)&&b.classList.toggle("on",b.dataset.k==k))}
+  else if(k=="undo"){mkS.pop();mkDraw()}else if(k=="clear"){mkS=[];mkDraw()}else if(k=="close")closeMk();
+  else if(k=="png")mkc.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="danem-markup.png";a.click()});
+  else if(k=="issue"){mkImg=mkc.toDataURL("image/jpeg",.85);closeMk();issAt=anchorPt();issueForm(null)}};
+
+// --- toolbar, context menu, shortcuts
+Object.assign(acts,{zoomsel:()=>!needSel()&&zoomTo([...sel]),ghost:toggleGhost,markup:openMk});
+$("#ctx").addEventListener("click",e=>{const k=e.target.dataset.c;if(!k||!ctxHit)return;const id=ctxHit.object.userData.id;
+  if(k=="similar")setSel(classes.get(typeOf.get(id)),id);else if(k=="face")faceSection(ctxHit);else if(k=="orbit")flyTo(cam.position.clone(),ctxHit.point.clone());else if(k=="issue")newIssue(ctxHit.point.clone())});
+$("#resetall").addEventListener("click",()=>{custom.clear();ghostOn=false;paintAll();boxOff()});
+addEventListener("keydown",e=>{if(e.target.tagName=="INPUT"&&e.target.type!="checkbox"||e.ctrlKey||e.metaKey)return;
+  if(e.key=="Enter"&&measure)finishArea();else if(e.key.toLowerCase()=="z")acts.zoomsel();else if(e.key=="Escape")closeMk()});
+// ---------- Viewra-style Pro tools
+const getPS=async id=>{const o={};try{for(const p of await ifc.properties.getPropertySets(modelID,id,true)){const pn=p.Name?.value||"";for(const x of (p.HasProperties||p.Quantities||[])){const v=valKeys.map(k=>x[k]?.value).find(v=>v!==undefined);o[pn+"|"+(x.Name?.value||"")]=v}}}catch{}return o};
+const getMat=async id=>{const o=new Set();try{collectMats(await ifc.properties.getMaterialsProperties(modelID,id,true),o)}catch{}return[...o]};
+const attrOf=(id,k)=>{try{const l=ifc.GetLine(modelID,id,false);return k=="Storey"?(elStorey.has(id)?nameOf(elStorey.get(id)):""):String(l[k]?.value??"")}catch{return""}};
+const selClasses=()=>{const c=$("#rb-c"),has=c.options.length;c.innerHTML=[...classes.keys()].sort().map(t=>`<option value="${esc(t)}">${esc(pretty(t))} (${classes.get(t).size})</option>`).join("")};
+// rule-based selection
+async function ruleIds(){const cs=[...$("#rb-c").selectedOptions].map(o=>o.value),v=$("#rb-v").value.toLowerCase(),f=$("#rb-f").value,op=$("#rb-o").value,out=[];
+  const pool=cs.length?cs.flatMap(t=>[...classes.get(t)]):[...byId.keys()];
+  for(const id of pool){if(!v){out.push(id);continue}let a=f=="Material"?(await getMat(id)).join(" "):attrOf(id,f);a=a.toLowerCase();
+    if(op=="c"&&a.includes(v)||op=="e"&&a==v||op=="s"&&a.startsWith(v)||op=="n"&&!a.includes(v))out.push(id)}
+  $("#rb-n").textContent=out.length+" elements match";return out}
+$("#rb-sel").onclick=async()=>{if(need())return;const r=await ruleIds();setSel(r,r[0]);zoomTo(r)};
+$("#rb-iso").onclick=async()=>{if(need())return;const r=await ruleIds();iso=new Set(r);applyVis()};
+$("#rb-hide").onclick=async()=>{if(need())return;(await ruleIds()).forEach(i=>hiddenI.add(i));applyVis()};
+// storey slide
+let stRank=[];
+function buildStoreys(){const m=new Map();elStorey.forEach((st,id)=>{(byId.get(id)||[]).forEach(me=>{const b=new THREE.Box3().setFromObject(me);if(!m.has(st))m.set(st,[]);m.get(st).push(b.min.y)})});
+  stRank=[...m].map(([st,a])=>[st,a.reduce((x,y)=>x+y,0)/a.length]).sort((a,b)=>a[1]-b[1]).map(x=>x[0]);
+  const r=$("#ss-r");r.max=Math.max(0,stRank.length-1);r.value=r.max;$("#ss-l").textContent=stRank.length?"All storeys shown ("+stRank.length+")":"No storeys found";selClasses()}
+$("#ss-r").oninput=e=>{if(!stRank.length)return;const k=+e.target.value;hiddenS=new Set();elStorey.forEach((st,id)=>{if(stRank.indexOf(st)>k)hiddenS.add(id)});applyVis();$("#ss-l").textContent="Up to: "+nameOf(stRank[k])};
+// IFC reference
+$("#ref-q").oninput=e=>{const q=e.target.value.trim().toUpperCase().replace(/^(?!IFC)/,"IFC"),o=$("#ref-r");if(q.length<5){o.innerHTML="";return}
+  const t=[...classes.keys()].find(k=>k==q);let h=`<a href="https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/${esc(q.replace(/^IFC/,"Ifc").replace(/^(Ifc)(.)/,(m,a,b)=>a+b))}.htm" target="_blank" rel="noopener" style="color:var(--accent)">Open ${esc(q)} in buildingSMART docs ↗</a>`;
+  if(t){const id=[...classes.get(t)][0];let l={};try{l=ifc.GetLine(modelID,id,false)}catch{}h+=`<p>${classes.get(t).size} in this model. Attributes: ${Object.keys(l).filter(k=>k!="type"&&k!="expressID").map(esc).join(", ")}</p>`}
+  else{const m=[...classes.keys()].filter(k=>k.includes(q.slice(3))).map(pretty);h+=m.length?`<p>In model: ${m.map(esc).join(", ")}</p>`:'<p>Not present in this model.</p>'}
+  o.innerHTML=h};
+// IDS validation
+const xs=(n,t)=>[...n.children].filter(c=>c.localName==t);
+function idsVal(n){if(!n)return null;const sv=xs(n,"simpleValue")[0];if(sv)return{eq:sv.textContent};const r=xs(n,"restriction")[0];if(!r)return null;
+  const en=xs(r,"enumeration").map(e=>e.getAttribute("value")),pt=xs(r,"pattern")[0]?.getAttribute("value");return en.length?{en}:pt?{re:new RegExp("^(?:"+pt+")$","i")}:null}
+const idsOk=(c,v)=>{if(!c)return true;if(v==null||v==="")return false;v=String(v);return c.eq!=null?v.toLowerCase()==c.eq.toLowerCase():c.en?c.en.some(x=>x.toLowerCase()==v.toLowerCase()):c.re?c.re.test(v):true};
+let idsRep=[];
+$("#ids-f").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(need())return;busy(true,"Validating IDS…");await frames();idsRep=[];
+  try{const d=new DOMParser().parseFromString(await f.text(),"text/xml");
+    for(const sp of d.getElementsByTagName("specification")){const name=sp.getAttribute("name")||"Specification",app=xs(sp,"applicability")[0],req=xs(sp,"requirements")[0];
+      const ent=idsVal(xs(xs(app,"entity")[0]||app,"name")[0]);let ids=[...byId.keys()].filter(i=>!ent||idsOk(ent,typeOf.get(i)));
+      const ap=xs(app,"property")[0];if(ap){const c={ps:idsVal(xs(ap,"propertySet")[0]),bn:idsVal(xs(ap,"baseName")[0]),v:idsVal(xs(ap,"value")[0])},k=[];for(const i of ids){const p=await getPS(i);if(Object.entries(p).some(([a,b])=>{const[x,y]=a.split("|");return idsOk(c.ps,x)&&idsOk(c.bn,y)&&idsOk(c.v,b)}))k.push(i)}ids=k}
+      const fail=[],why=new Map();let n=0;
+      for(const i of ids){let bad="";
+        for(const r of req?[...req.children]:[]){const t=r.localName;
+          if(t=="attribute"){const nm=idsVal(xs(r,"name")[0]),vl=idsVal(xs(r,"value")[0]);const a=attrOf(i,nm?.eq||"");if(a===""||!idsOk(vl,a))bad+="Attribute "+(nm?.eq||"?")+"; "}
+          else if(t=="property"){const c={ps:idsVal(xs(r,"propertySet")[0]),bn:idsVal(xs(r,"baseName")[0]),v:idsVal(xs(r,"value")[0])},p=await getPS(i);
+            if(!Object.entries(p).some(([a,b])=>{const[x,y]=a.split("|");return idsOk(c.ps,x)&&idsOk(c.bn,y)&&(!c.v||idsOk(c.v,b))}))bad+="Property "+(c.ps?.eq||"")+"."+(c.bn?.eq||"")+"; "}
+          else if(t=="material"){const m=await getMat(i),vl=idsVal(xs(r,"value")[0]);if(!m.length||(vl&&!m.some(x=>idsOk(vl,x))))bad+="Material; "}
+          else if(t=="entity"){if(!idsOk(idsVal(xs(r,"name")[0]),typeOf.get(i)))bad+="Entity; "}}
+        n++;if(bad){fail.push(i);why.set(i,bad)}if(n%100==0)await tick()}
+      idsRep.push({name,total:ids.length,fail,why})}}catch(err){toast("IDS error: "+err.message)}
+  busy(false);const o=$("#ids-r");o.classList.remove("muted");
+  o.innerHTML=idsRep.map((r,k)=>`<a data-k="${k}"><span>${r.fail.length?"❌":"✅"} ${esc(r.name)}</span><u>${r.total-r.fail.length}/${r.total}</u></a>`).join("")||"No specifications found.";
+  o.onclick=ev=>{const a=ev.target.closest("a");if(!a)return;const r=idsRep[+a.dataset.k],ids=r.fail.length?r.fail:[];if(ids.length){setSel(ids,ids[0]);zoomTo(ids)}else toast("All elements pass")}};
+$("#ids-csv").onclick=()=>{if(!idsRep.length)return toast("Run an IDS check first");const r=[["Specification","ExpressID","Class","Name","Problem"]];idsRep.forEach(x=>x.fail.forEach(i=>r.push([x.name,i,pretty(typeOf.get(i)),nameOf(i),x.why.get(i)])));download("ids-report.csv",r.map(x=>x.map(csvq).join(",")).join("\n"),"text/csv")};
+// BCF browser (zip read with DecompressionStream)
+async function unzip(buf){const dv=new DataView(buf),u8=new Uint8Array(buf),out={};let e=u8.length-22;while(e>0&&dv.getUint32(e,true)!=0x06054b50)e--;
+  let c=dv.getUint32(e+16,true),n=dv.getUint16(e+10,true);
+  for(let i=0;i<n;i++){const m=dv.getUint16(c+10,true),cs=dv.getUint32(c+20,true),nl=dv.getUint16(c+28,true),xl=dv.getUint16(c+30,true),cl=dv.getUint16(c+32,true),lo=dv.getUint32(c+42,true),name=new TextDecoder().decode(u8.slice(c+46,c+46+nl));
+    const ds=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),raw=u8.slice(ds,ds+cs);
+    if(/\.(bcf|bcfv)$/i.test(name)){out[name]=m==0?new TextDecoder().decode(raw):await new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text()}
+    c+=46+nl+xl+cl}return out}
+$("#bcf-f").onchange=async e=>{const f=e.target.files[0];if(!f)return;const o=$("#bcf-l");
+  try{const z=await unzip(await f.arrayBuffer()),dp=new DOMParser(),rows=[];
+    for(const k in z)if(/markup\.bcf$/i.test(k)){const d=dp.parseFromString(z[k],"text/xml"),g=t=>d.getElementsByTagName(t)[0]?.textContent||"",tp=d.getElementsByTagName("Topic")[0],vk=Object.keys(z).find(x=>x.startsWith(k.replace(/markup\.bcf$/i,""))&&/\.bcfv$/i.test(x));
+      let cam=null;if(vk){const v=dp.parseFromString(z[vk],"text/xml"),P=n=>{const x=v.getElementsByTagName(n)[0];return x?["X","Y","Z"].map(a=>+x.getElementsByTagName(a)[0].textContent):null};const pc=v.getElementsByTagName("PerspectiveCamera")[0];if(pc){const ev=pc.getElementsByTagName("CameraViewPoint")[0],dr=pc.getElementsByTagName("CameraDirection")[0],q=x=>["X","Y","Z"].map(a=>+x.getElementsByTagName(a)[0].textContent);cam={p:q(ev),d:q(dr)}}}
+      rows.push({t:g("Title"),s:tp?.getAttribute("TopicStatus")||"",a:g("CreationAuthor"),dt:g("CreationDate").slice(0,10),ds:g("Description"),cam})}
+    o.classList.remove("muted");o.innerHTML=rows.map((r,i)=>`<a data-i="${i}" title="${esc(r.ds)}"><span>${esc(r.t||"Topic")}</span><u>${esc(r.s)}</u></a>`).join("")||"No topics found.";
+    o.onclick=ev=>{const a=ev.target.closest("a");if(!a)return;const r=rows[+a.dataset.i];toast(r.t+" · "+r.a+" · "+r.dt);if(r.cam){const p=new THREE.Vector3(r.cam.p[0],r.cam.p[2],-r.cam.p[1]),d=new THREE.Vector3(r.cam.d[0],r.cam.d[2],-r.cam.d[1]);flyTo(p,p.clone().add(d.multiplyScalar(10)))}}}
+  catch(err){toast("BCF error: "+err.message)}};
+// exports
+$("#ex-cobie").onclick=async()=>{if(need())return;busy(true,"Building COBie…");await frames();const R=[["Sheet: Floor"],["Name","Category","GlobalId","ExtObject"]];
+  new Set(elStorey.values()).forEach(st=>{let g="";try{g=ifc.GetLine(modelID,st,false).GlobalId?.value||""}catch{}R.push([nameOf(st),"Floor",g,"IfcBuildingStorey"])});
+  R.push([],["Sheet: Component"],["Name","TypeName","Space/Floor","Description","GlobalId","ExtObject","Tag"]);let n=0;
+  for(const id of byId.keys()){let l={};try{l=ifc.GetLine(modelID,id,false)}catch{}R.push([l.Name?.value,l.ObjectType?.value||pretty(typeOf.get(id)),elStorey.has(id)?nameOf(elStorey.get(id)):"",l.Description?.value,l.GlobalId?.value,typeOf.get(id),l.Tag?.value]);if(++n%500==0)await tick()}
+  busy(false);download((fileName.replace(/\.ifc$/i,"")||"model")+"-COBie.csv",R.map(r=>r.map(csvq).join(",")).join("\n"),"text/csv")};
+$("#ex-qty").onclick=async()=>{if(need())return;busy(true,"Quantities…");await frames();const R=[["ExpressID","Class","Name","Storey","Set","Quantity","Value"]];let n=0;
+  for(const id of byId.keys()){const p=await getPS(id);for(const[k,v]of Object.entries(p)){const[a,b]=k.split("|");if(typeof v=="number"&&/qto|quantit/i.test(a))R.push([id,pretty(typeOf.get(id)),nameOf(id),elStorey.has(id)?nameOf(elStorey.get(id)):"",a,b,v])}if(++n%100==0)await tick()}
+  busy(false);R.length<2?toast("No quantity sets in model"):download((fileName.replace(/\.ifc$/i,"")||"model")+"-quantities.csv",R.map(r=>r.map(csvq).join(",")).join("\n"),"text/csv")};
+$("#ex-obj").onclick=()=>{if(need())return;let o="# DANEM IFC Viewer export\n",off=1;const v=new THREE.Vector3();
+  meshes.forEach(m=>{if(!m.visible||!m.geometry.attributes.position)return;m.updateWorldMatrix(true,false);const P=m.geometry.attributes.position,I=m.geometry.index;o+="o "+pretty(typeOf.get(m.userData.id))+"_"+m.userData.id+"\n";
+    for(let i=0;i<P.count;i++){v.fromBufferAttribute(P,i).applyMatrix4(m.matrixWorld);o+=`v ${v.x.toFixed(4)} ${v.y.toFixed(4)} ${v.z.toFixed(4)}\n`}
+    const T=I?I.count:P.count;for(let i=0;i<T;i+=3){const a=I?I.getX(i):i,b=I?I.getX(i+1):i+1,c=I?I.getX(i+2):i+2;o+=`f ${a+off} ${b+off} ${c+off}\n`}off+=P.count});
+  download((fileName.replace(/\.ifc$/i,"")||"model")+".obj",o)};
+// refresh after each model load
+const _load=load;load=async function(f){await _load.apply(this,arguments);buildStoreys()};
+
+boxOff();renderSets();
+
+// ================= DANEM Studio additions
+const lsG=(k,d)=>{try{return JSON.parse(localStorage.getItem("danem."+k))??d}catch{return d}},lsS=(k,v)=>{try{localStorage.setItem("danem."+k,JSON.stringify(v))}catch{}};
+const tg=id=>{const e=$(id);e.checked=!e.checked;["input","change"].forEach(t=>e.dispatchEvent(new Event(t,{bubbles:true})))};
+const hemi=scene.children.find(c=>c.isHemisphereLight);
+// lighting
+const lightSet=()=>{const az=+$("#l-az").value*Math.PI/180,el=+$("#l-el").value*Math.PI/180,b=+$("#l-b").value/100;
+  sun.position.set(100*Math.cos(el)*Math.sin(az),100*Math.sin(el),100*Math.cos(el)*Math.cos(az));sun.intensity=1.3*b;if(hemi)hemi.intensity=1.1*b;
+  lsS("light",[$("#l-az").value,$("#l-el").value,$("#l-b").value])};
+{const v=lsG("light",null);if(v){$("#l-az").value=v[0];$("#l-el").value=v[1];$("#l-b").value=v[2]}}
+["#l-az","#l-el","#l-b"].forEach(i=>$(i).oninput=lightSet);lightSet();
+// camera
+$("#c-rot").onchange=e=>{controls.autoRotate=e.target.checked;controls.autoRotateSpeed=1.5};
+$("#c-zc").onchange=e=>controls.zoomToCursor=e.target.checked;controls.zoomToCursor=true;
+$("#c-hud").checked=lsG("hud",true);$("#c-hud").onchange=e=>{$("#hud").style.display=e.target.checked?"":"none";lsS("hud",e.target.checked)};$("#hud").style.display=$("#c-hud").checked?"":"none";
+$("#c-sel").onclick=()=>{if(!sel.size)return toast("Select an element first");const b=selBox([...sel]);controls.target.copy(b.getCenter(new THREE.Vector3()));toast("Orbiting selection")};
+$("#c-hr").onclick=async()=>{if(need())return;const pr=renderer.getPixelRatio();renderer.setPixelRatio(3);renderer.setSize(cv.clientWidth,cv.clientHeight);renderer.render(scene,cam);
+  const u=dom.toDataURL("image/png");renderer.setPixelRatio(pr);renderer.setSize(cv.clientWidth,cv.clientHeight);const a=document.createElement("a");a.href=u;a.download="danem-snapshot-3x.png";a.click()};
+let play=null;$("#c-4d").onclick=()=>{const r=$("#ss-r");if(play){clearInterval(play);play=null;$("#c-4d").textContent="▶ 4D storeys";return}
+  if(!stRank.length)return toast("No storeys found");let k=-1;$("#c-4d").textContent="⏸ Stop";
+  play=setInterval(()=>{k++;if(k>+r.max){clearInterval(play);play=null;$("#c-4d").textContent="▶ 4D storeys";return}r.value=k;r.dispatchEvent(new Event("input"))},900)};
+// colour by
+const cm=new Map(),cmSet=new Set();
+const gm=c=>{const k=c.getHexString();let m=cm.get(k);if(!m){m=new THREE.MeshLambertMaterial({color:c,side:THREE.DoubleSide,clippingPlanes:clips});m.userData.o=1;cm.set(k,m);mats.push(m)}return m};
+$("#cby").onchange=e=>{const mode=e.target.value;cmSet.forEach(i=>custom.delete(i));cmSet.clear();
+  if(mode&&!need()){const H=box.max.y-box.min.y||1,vs=new Map();let lo=1e9,hi=-1e9;
+    if(mode=="sz")byId.forEach((_,id)=>{const z=selBox([id]).getSize(new THREE.Vector3()),v=Math.log10(Math.max(1e-6,z.x*z.y*z.z));vs.set(id,v);lo=Math.min(lo,v);hi=Math.max(hi,v)});
+    byId.forEach((_,id)=>{let h=.6,l=.5;
+      if(mode=="st"){const r=stRank.indexOf(elStorey.get(id));if(r<0){h=0;l=.6;const c=new THREE.Color(0x999999);custom.set(id,gm(c));cmSet.add(id);return}h=r/Math.max(1,stRank.length)*.85}
+      else if(mode=="el")h=.66*(1-Math.min(1,Math.max(0,(selBox([id]).getCenter(new THREE.Vector3()).y-box.min.y)/H)));
+      else h=.66*(1-(vs.get(id)-lo)/((hi-lo)||1));
+      custom.set(id,gm(new THREE.Color().setHSL(h,.7,.52)));cmSet.add(id)})}
+  paintAll();applyOpts()};
+// dashboard
+const idsOf=t=>[...typeOf].filter(x=>x[1]===t).map(x=>x[0]);
+function dash(){const c=new Map();typeOf.forEach(t=>c.set(t,(c.get(t)||0)+1));const a=[...c].sort((x,y)=>y[1]-x[1]).slice(0,14),mx=a[0]?.[1]||1;
+  $("#dash").innerHTML=a.length?a.map(([t,n])=>`<div class="bar" data-t="${esc(t)}"><span>${esc(pretty(t))}</span><i style="width:${n/mx*60}%;background:${typeColor(t).getStyle()}"></i><b>${n}</b></div>`).join(""):"Load a model.";cm.clear();cmSet.clear();$("#cby").value=""}
+$("#dash").onclick=e=>{const t=e.target.closest(".bar")?.dataset.t;if(!t)return;iso=new Set(idsOf(t));applyVis();toast("Isolated "+pretty(t)+" ("+iso.size+")")};
+$("#hc").onclick=async()=>{if(need())return;busy(true,"Checking model…");await frames();let un=0,nos=0,tiny=0;const g=new Map();
+  for(const id of byId.keys()){try{const l=ifc.GetLine(modelID,id,false);if(!l.Name?.value)un++;const gi=l.GlobalId?.value;if(gi)g.set(gi,(g.get(gi)||0)+1)}catch{}
+    if(!elStorey.has(id))nos++;const z=selBox([id]).getSize(new THREE.Vector3());if(Math.max(z.x,z.y,z.z)<.005)tiny++}
+  const dup=[...g.values()].filter(v=>v>1).length;busy(false);
+  $("#hcr").innerHTML=`<dl><dt>Unnamed</dt><dd>${un}</dd><dt>No storey</dt><dd>${nos}</dd><dt>Duplicate IDs</dt><dd>${dup}</dd><dt>Tiny (&lt;5 mm)</dt><dd>${tiny}</dd></dl>`};
+$("#rep").onclick=()=>{if(need())return;const c=new Map();typeOf.forEach(t=>c.set(t,(c.get(t)||0)+1));const z=box.getSize(new THREE.Vector3());
+  const h=`<!doctype html><meta charset=utf-8><title>DANEM report</title><body style="font:14px Inter,sans-serif;max-width:760px;margin:30px auto"><h1>DANEM ENERGY LLC. RAK. — Model report</h1><p>${esc(fileName)} · ${new Date().toLocaleString()}</p><p>Elements: <b>${byId.size}</b> · Storeys: <b>${stRank.length}</b> · Extents: <b>${z.x.toFixed(1)} × ${z.z.toFixed(1)} × ${z.y.toFixed(1)} m</b></p><table border=1 cellpadding=6 style="border-collapse:collapse"><tr><th>Class</th><th>Count</th></tr>${[...c].sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<tr><td>${esc(pretty(t))}</td><td>${n}</td></tr>`).join("")}</table>`;
+  download("danem-report.html",h,"text/html")};
+// site location
+function site(){let h="No IfcSite coordinates";try{const ids=ifc.GetLineIDsWithType(modelID,WebIFC.IFCSITE);if(ids.size()){const l=ifc.GetLine(modelID,ids.get(0),false),f=a=>{if(!a||!a.length)return null;const v=a.map(x=>x.value||0),sg=v[0]<0?-1:1;return sg*(Math.abs(v[0])+(v[1]||0)/60+(v[2]||0)/3600+(v[3]||0)/3.6e9)},la=f(l.RefLatitude),lo=f(l.RefLongitude);
+  if(la!=null&&lo!=null)h=`${la.toFixed(5)}, ${lo.toFixed(5)} · <a target=_blank rel=noopener style="color:var(--accent)" href="https://www.openstreetmap.org/?mlat=${la}&mlon=${lo}#map=17/${la}/${lo}">Open map</a>`}}catch{}$("#site").innerHTML=h}
+// export
+$("#ex-glb").onclick=async()=>{if(need())return;busy(true,"Exporting GLB…");try{const{GLTFExporter}=await import("three/addons/exporters/GLTFExporter.js");
+  new GLTFExporter().parse(group,r=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([r],{type:"model/gltf-binary"}));a.download=(fileName.replace(/\.ifc$/i,"")||"model")+".glb";a.click();busy(false)},e=>{busy(false);toast("Export failed")},{binary:true,onlyVisible:true})}catch(e){busy(false);toast("Export failed: "+e.message)}};
+$("#ex-gid").onclick=()=>{if(!sel.size)return toast("Select elements first");const g=[...sel].map(i=>{try{return ifc.GetLine(modelID,i,false).GlobalId?.value}catch{}}).filter(Boolean).join("\n");navigator.clipboard?.writeText(g).then(()=>toast(sel.size+" GlobalIds copied"))};
+// HUD
+{let n=0,t0=performance.now();(function f(now){requestAnimationFrame(f);n++;if(now-t0>500){const fps=Math.round(n*1000/(now-t0));n=0;t0=now;const i=renderer.info.render;$("#hud").innerHTML=`<b>${fps}</b> FPS · ${(i.triangles/1000).toFixed(0)}k tris · ${i.calls} calls · ${sel.size} sel`}})(t0)}
+// command palette
+let cpi=0,cpc=[];
+const cmds=()=>{const a=[];Object.keys(acts).forEach(k=>a.push(["Action · "+k,()=>acts[k]()]));
+  [["X-ray","#o-xray"],["Wireframe","#o-wire"],["Edges","#o-edge"],["Ground grid","#o-grid"],["Colour by class","#o-color"],["Turntable","#c-rot"]].forEach(([n,i])=>a.push(["Toggle · "+n,()=>tg(i)]));
+  $$(".tabs button").forEach(b=>a.push(["Go to tab · "+b.textContent,()=>tab(b.dataset.t)]));
+  a.push(["Toggle theme",()=>$("#theme").click()],["Run health check",()=>{tab("plus");$("#hc").click()}],["Export GLB",()=>$("#ex-glb").click()],["Report (HTML)",()=>$("#rep").click()]);
+  new Set(typeOf.values()).forEach(t=>{a.push(["Isolate class · "+pretty(t),()=>{iso=new Set(idsOf(t));applyVis()}]);a.push(["Hide class · "+pretty(t),()=>{hiddenT.add(t);applyVis()}])});return a};
+function cpR(){const q=$("#cpi").value.toLowerCase().split(" ").filter(Boolean);cpc=cmds().filter(c=>q.every(w=>c[0].toLowerCase().includes(w))).slice(0,40);cpi=Math.min(cpi,Math.max(0,cpc.length-1));
+  $("#cpl").innerHTML=cpc.map((c,i)=>`<a data-i="${i}" class="${i==cpi?"on":""}">${esc(c[0])}</a>`).join("")||'<div class="muted" style="padding:8px">No match</div>'}
+const cpO=o=>{$("#cp").classList.toggle("on",o);if(o){$("#cpi").value="";cpi=0;cpR();$("#cpi").focus()}};
+$("#cpi").oninput=()=>{cpi=0;cpR()};$("#cp").onclick=e=>{if(e.target.id=="cp")cpO(false);const i=e.target.closest("a")?.dataset.i;if(i!=null){cpO(false);cpc[i][1]()}};
+$("#cpi").onkeydown=e=>{if(e.key=="ArrowDown"){cpi=Math.min(cpc.length-1,cpi+1);cpR();e.preventDefault()}else if(e.key=="ArrowUp"){cpi=Math.max(0,cpi-1);cpR();e.preventDefault()}else if(e.key=="Enter"&&cpc[cpi]){cpO(false);cpc[cpi][1]()}else if(e.key=="Escape")cpO(false)};
+addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=="k"){e.preventDefault();cpO(true);return}
+  if(e.ctrlKey||e.metaKey||walk||e.target.tagName=="INPUT"||e.target.tagName=="SELECT")return;const k=e.key.toLowerCase();
+  if(k=="x")tg("#o-xray");else if(k=="g")tg("#o-grid");else if(k=="l"){$("#c-rot").checked=!$("#c-rot").checked;$("#c-rot").onchange({target:$("#c-rot")})}});
+const _l3=load;load=async function(){await _l3.apply(this,arguments);dash();site()};
+
+// Photoshop-style tool options bar
+{const H={walk:["Walk","W A S D move · Q/E down/up · Shift fast"],measure:["Measure","Click points · Enter finishes area · Esc cancels"],note:["Note","Click the model to place a note"],ortho:["Orthographic","Press O to return to perspective"]};
+const upd=()=>{const on=["walk","measure","note","ortho"].map(k=>$("#tb [data-act="+k+"]")).find(b=>b&&b.classList.contains("on"));
+ const k=on?on.dataset.act:null;$("#ot").textContent=k?H[k][0]:"Select";$("#oh").textContent=k?H[k][1]:"Click to inspect · Shift+click multi-select · Double-click zoom · Right-click menu"};
+new MutationObserver(upd).observe($("#tb"),{subtree:true,attributes:true,attributeFilter:["class"]});upd()}
+
+// toolbar hover labels (not clipped by the scroll container)
+{const t=$("#ttip");const show=b=>{const r=b.getBoundingClientRect();t.textContent=b.dataset.tip;t.style.display="block";t.style.left=(r.right+12)+"px";t.style.top=(r.top+r.height/2-t.offsetHeight/2)+"px"};
+$("#tb").addEventListener("pointerover",e=>{const b=e.target.closest("button[data-tip]");b?show(b):t.style.display="none"});
+$("#tb").addEventListener("pointerleave",()=>t.style.display="none");$("#tb").addEventListener("scroll",()=>t.style.display="none");$("#tb").addEventListener("click",()=>t.style.display="none")}
+
+// tabs: wheel scrolls sideways, active tab scrolls into view
+{const tb=$(".tabs");tb.addEventListener("wheel",e=>{if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){tb.scrollLeft+=e.deltaY;e.preventDefault()}},{passive:false});
+tb.addEventListener("click",e=>e.target.closest("button")?.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"}))}
+
+// undo / redo (visibility, isolation, colours, sections)
+{const H=[],lim=60;let i=-1,lock=false,tm;
+const sig=()=>[...hiddenI].join()+"|"+[...hiddenT].join()+"|"+[...hiddenS].join()+"|"+(iso?[...iso].join():"-")+"|"+[...custom].map(([k,m])=>k+m.uuid).join()+"|"+AX.map(a=>S[a].v+","+S[a].s).join(";");
+const snap=()=>({a:[...hiddenI],t:[...hiddenT],s:[...hiddenS],iso:iso?[...iso]:null,c:[...custom],S:AX.map(a=>({...S[a]})),g:sig()});
+const ui=()=>{$("#tb [data-act=undo]").classList.toggle("dis",i<=0);$("#tb [data-act=redo]").classList.toggle("dis",i>=H.length-1)};
+const rec=()=>{if(lock||box.isEmpty())return;if(H[i]&&H[i].g===sig())return;H.length=i+1;H.push(snap());if(H.length>lim)H.shift();i=H.length-1;ui()};
+const restore=h=>{lock=true;hiddenI=new Set(h.a);hiddenT=new Set(h.t);hiddenS=new Set(h.s);iso=h.iso?new Set(h.iso):null;custom.clear();h.c.forEach(([k,v])=>custom.set(k,v));
+  AX.forEach((a,k)=>{S[a]={...h.S[k]};const e=$("#cl-"+a);if(e)e.value=S[a].v});setClips();applyVis();paintAll();applyOpts();rebuildTrees();lock=false};
+const go=d=>{rec();const n=i+d;if(n<0||n>=H.length)return toast(d<0?"Nothing to undo":"Nothing to redo");i=n;restore(H[i]);ui();toast(d<0?"Undo":"Redo")};
+acts.undo=()=>go(-1);acts.redo=()=>go(1);
+const sch=ms=>{clearTimeout(tm);tm=setTimeout(rec,ms)};
+["click","keyup","change"].forEach(t=>addEventListener(t,()=>sch(80),true));addEventListener("input",()=>sch(350),true);
+addEventListener("keydown",e=>{if(!(e.ctrlKey||e.metaKey)||(e.target.tagName=="INPUT"&&e.target.type=="text"))return;const k=e.key.toLowerCase();
+  if(k=="z"){e.preventDefault();go(e.shiftKey?1:-1)}else if(k=="y"){e.preventDefault();go(1)}});
+const _l4=load;load=async function(){await _l4.apply(this,arguments);H.length=0;i=-1;rec();ui()};ui()}
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}</script>
+</body>
+</html>
